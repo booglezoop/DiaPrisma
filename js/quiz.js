@@ -372,6 +372,18 @@ function render() {
   }, 30);
 }
 
+function goBack() {
+  // If retreating to or past the branch, reset track state
+  if (state.currentStep <= 5) {
+    state.track = null;
+    Object.keys(state.answers).forEach(k => {
+      if (k.startsWith('pm_') || k.startsWith('om_')) delete state.answers[k];
+    });
+  }
+  state.currentStep--;
+  render();
+}
+
 function renderStep(root, steps) {
   const q        = steps[state.currentStep];
   const progress = (state.currentStep / TOTAL_STEPS) * 100;
@@ -395,9 +407,14 @@ function renderStep(root, steps) {
     <div class="q-text">${q.text}</div>
     <div id="main-area"></div>
     <div id="sub-area"></div>
-    <button class="next-btn" id="next-btn" disabled>
-      ${isLast ? 'Вижте резултата →' : 'Следващ въпрос →'}
-    </button>
+    <div class="nav-row">
+  ${state.currentStep > 0
+    ? `<button class="back-btn" id="back-btn">← Назад</button>`
+    : `<span></span>`}
+  <button class="next-btn" id="next-btn" disabled>
+    ${isLast ? 'Вижте резултата →' : 'Следващ въпрос →'}
+  </button>
+</div>
   `;
   root.appendChild(wrap);
 
@@ -433,6 +450,8 @@ function renderStep(root, steps) {
       render();
     }
   };
+  const backBtn = document.getElementById('back-btn');
+  if (backBtn) backBtn.onclick = goBack;
 }
 
 // ─── INPUT RENDERER ───────────────────────────────────────────────────────────
