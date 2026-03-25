@@ -354,6 +354,13 @@ function getLeadTier(score) {
   return 'nurture';
 }
 
+function getClientTier(score) {
+  if (score >= 65) return 'Висока готовност';
+  if (score >= 45) return 'Средна готовност';
+  if (score >= 30) return 'Ниска готовност';
+  return 'Нужна е спешна промяна';
+}
+
 // ─── MAIN RENDER ──────────────────────────────────────────────────────────────
 function render() {
   const root = document.getElementById('quiz-inner');
@@ -552,6 +559,7 @@ function renderResult(root) {
   const { clientScore, leadScore } = computeScores();
   const risk      = getPrimaryRisk();
   const leadTier  = getLeadTier(leadScore);
+  const clientTier = getClientTier(clientScore);
 
   const ringColor = clientScore >= 65 ? '#4caf82'
                   : clientScore >= 45 ? '#c9a84c'
@@ -623,6 +631,7 @@ function renderResult(root) {
       name, phone, email,
       track:              state.track,
       client_score:       clientScore,
+      client_tier:        clientTier,
       lead_quality_score: leadScore,
       lead_tier:          leadTier,
       primary_risk:       risk.title,
