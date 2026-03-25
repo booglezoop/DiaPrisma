@@ -381,7 +381,10 @@ function renderStep(root, steps) {
     <div class="progress-bar-wrap">
       <div class="progress-bar-fill" style="width:${progress}%"></div>
     </div>
-    <div class="q-counter">Въпрос ${state.currentStep + 1} от ${TOTAL_STEPS} &nbsp;·&nbsp; Остават ~${Math.max(1, TOTAL_STEPS - state.currentStep)} въпроса</div>
+    <div class="q-counter">
+      <span>Въпрос ${state.currentStep + 1} от ${TOTAL_STEPS}</span>
+      <span>Остават ~${Math.max(1, TOTAL_STEPS - state.currentStep)} въпроса</span>
+    </div>
     <div class="q-text">${q.text}</div>
     <div id="main-area"></div>
     <div id="sub-area"></div>
