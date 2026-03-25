@@ -10,9 +10,147 @@
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <div id="quiz-root">
+
+  <!-- ── LANDING PAGE ──────────────────────────────────────────────────────── -->
+  <div id="landing-page">
+
+    <nav class="lp-nav">
+      <img src="assets/doma-logo.png" alt="DOMA Real Estate Bulgaria" class="lp-logo">
+    </nav>
+
+    <section class="lp-hero">
+      <div class="lp-hero-inner">
+
+        <div class="lp-eyebrow">
+          <span class="lp-eyebrow-dot"></span>
+          Безплатна диагностика за продавачи на имоти
+        </div>
+
+        <h1 class="lp-headline">
+          Защо имотът ви<br><em>не се продава?</em>
+        </h1>
+
+        <p class="lp-subhead">
+          Отговорете на 10 въпроса и разберете точно какво спира купувачите —
+          ценова грешка, маркетинг или документация.
+          Получете конкретен план, не общи съвети.
+        </p>
+
+        <button class="lp-cta" id="lp-start-btn">
+          Разберете защо имотът ви не се продава
+          <span class="lp-cta-arrow">→</span>
+        </button>
+
+        <div class="lp-meta">
+          <span>⏱ 2 минути</span>
+          <span class="lp-meta-sep">·</span>
+          <span>Без регистрация</span>
+          <span class="lp-meta-sep">·</span>
+          <span>Безплатно</span>
+        </div>
+
+      </div>
+
+      <div class="lp-hero-graphic">
+        <div class="lp-score-preview">
+          <div class="lp-score-ring">
+            <svg viewBox="0 0 120 120" width="120" height="120">
+              <circle cx="60" cy="60" r="50" fill="none" stroke="rgba(192,39,45,0.1)" stroke-width="8"/>
+              <circle cx="60" cy="60" r="50" fill="none" stroke="url(#lp-grad)" stroke-width="8"
+                stroke-dasharray="220 314" stroke-linecap="round"
+                transform="rotate(-90 60 60)"/>
+              <defs>
+                <linearGradient id="lp-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="#1E3A8A"/>
+                  <stop offset="100%" stop-color="#C0272D"/>
+                </linearGradient>
+              </defs>
+            </svg>
+            <div class="lp-score-num">71</div>
+          </div>
+          <div class="lp-score-label">Готовност за продажба</div>
+          <div class="lp-score-risk">
+            <div class="lp-score-risk-title">Имотът привлича огледи,<br>но не и оферти</div>
+            <div class="lp-score-risk-body">Сигнал за проблем с цената или презентацията</div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <section class="lp-trust">
+      <div class="lp-trust-inner">
+
+        <div class="lp-trust-card">
+          <div class="lp-trust-icon">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <path d="M10 1.5L12.2 7H18L13.4 10.4L15.3 16.5L10 13L4.7 16.5L6.6 10.4L2 7H7.8L10 1.5Z"
+                stroke="#C0272D" stroke-width="1.2" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div class="lp-trust-label">Точна диагноза</div>
+          <div class="lp-trust-desc">Конкретен анализ на вашата ситуация, не общи съвети</div>
+        </div>
+
+        <div class="lp-trust-divider"></div>
+
+        <div class="lp-trust-card">
+          <div class="lp-trust-icon">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <path d="M3 6C3 4.9 3.9 4 5 4H15C16.1 4 17 4.9 17 6V15C17 16.1 16.1 17 15 17H5C3.9 17 3 16.1 3 15V6Z"
+                stroke="#C0272D" stroke-width="1.2"/>
+              <path d="M7 4V2.5M13 4V2.5M3 8.5H17" stroke="#C0272D" stroke-width="1.2" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="lp-trust-label">Два различни пътя</div>
+          <div class="lp-trust-desc">Активни обяви и имоти преди пускане — различни въпроси</div>
+        </div>
+
+        <div class="lp-trust-divider"></div>
+
+        <div class="lp-trust-card">
+          <div class="lp-trust-icon">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <circle cx="10" cy="10" r="7.5" stroke="#C0272D" stroke-width="1.2"/>
+              <path d="M10 6.5V10.5L12.5 12" stroke="#C0272D" stroke-width="1.2" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="lp-trust-label">Без ангажимент</div>
+          <div class="lp-trust-desc">Резултатът е ваш. Консултацията — само ако искате</div>
+        </div>
+
+      </div>
+    </section>
+
+    <footer class="lp-footer">
+      <span>© 2025 DOMA Real Estate Bulgaria</span>
+      <span class="lp-meta-sep">·</span>
+      <span>Всички права запазени</span>
+    </footer>
+
+  </div>
+
+  <!-- ── QUIZ ──────────────────────────────────────────────────────────────── -->
+  <div id="quiz-root" style="display:none;">
     <div class="quiz-inner" id="quiz-inner"></div>
   </div>
+
   <script src="js/quiz.js"></script>
+  <script>
+    document.getElementById('lp-start-btn').addEventListener('click', function () {
+      var lp = document.getElementById('landing-page');
+      var qr = document.getElementById('quiz-root');
+      lp.style.transition = 'opacity 0.35s ease';
+      lp.style.opacity = '0';
+      setTimeout(function () {
+        lp.style.display = 'none';
+        qr.style.display = 'flex';
+        qr.style.opacity = '0';
+        qr.style.transition = 'opacity 0.35s ease';
+        setTimeout(function () { qr.style.opacity = '1'; }, 30);
+      }, 350);
+    });
+  </script>
+
 </body>
 </html>
