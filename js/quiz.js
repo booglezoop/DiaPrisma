@@ -593,7 +593,7 @@ function renderResult(root) {
       <div class="contact-box-sub">Оставете контакт и ще се свържем с вас за безплатна 15-минутна консултация — без ангажимент.</div>
       <div class="field-row">
         <input class="field-input" type="text"  placeholder="Вашето име"         id="inp-name"/>
-        <input class="field-input" type="tel"   placeholder="Телефон"            id="inp-phone"/>
+        <input class="field-input" type="tel" placeholder="Телефон" id="inp-phone" inputmode="numeric" maxlength="15" pattern="[0-9+\\s\\-]{7,15}"/>
         <input class="field-input" type="email" placeholder="Имейл (по желание)" id="inp-email"/>
       </div>
       <button class="submit-btn" id="submit-btn">Получете безплатен план за продажба →</button>
@@ -623,7 +623,10 @@ function renderResult(root) {
     const name  = document.getElementById('inp-name').value.trim();
     const phone = document.getElementById('inp-phone').value.trim();
     const email = document.getElementById('inp-email').value.trim();
+    const phoneClean = phone.replace(/[\s\-]/g, '');
+    const phoneValid = /^\+?[0-9]{7,15}$/.test(phoneClean);
     if (!name || !phone) { alert('Моля, въведете имe и телефон.'); return; }
+    if (!phoneValid) { alert('Моля, въведете валиден телефонен номер.'); return; }
     if (state.submitted) return;
     state.submitted = true;
 
