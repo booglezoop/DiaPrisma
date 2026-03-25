@@ -573,7 +573,7 @@ body { margin: 0; padding: 0; }
 .lp-score-preview::before {
   content: 'Пример за резултат';
   position: absolute;
-  top: -10px;
+  top: 8px;
   left: 50%;
   transform: translateX(-50%);
   font-size: 10px;
@@ -595,7 +595,7 @@ body { margin: 0; padding: 0; }
 
 .lp-score-num {
   position: absolute;
-  top: 50%;
+  top: 46%;
   left: 50%;
   transform: translate(-50%, -50%);
   font-family: 'Playfair Display', serif;
