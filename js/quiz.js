@@ -200,7 +200,6 @@ let state = {
   track: null,       // 'pre' | 'on' | null
   answers: {},
   submitted: false,
-  dbRowId: null        // set after anonymous insert, used to patch contact info
 };
 
 // ─── STEP SEQUENCE ────────────────────────────────────────────────────────────
@@ -593,51 +592,7 @@ function renderResult(root) {
   const { clientScore, leadScore } = computeScores();
   const risk       = getPrimaryRisk();
   const leadTier   = getLeadTier(leadScore);
-  const clientTier = getClientTier(clientScore);
-
-  // Anonymous insert — fires immediately on results render
-  if (!state.dbRowId) {
-    (async () => {
-      try {
-        const anonPayload = {
-          is_anonymous: true,
-          track:              state.track,
-          client_score:       clientScore,
-          client_tier:        clientTier,
-          lead_quality_score: leadScore,
-          lead_tier:          leadTier,
-          primary_risk:       risk.title,
-          location:           state.answers['location'] || '',
-          neighborhood:       state.answers['neighborhood'] || '',
-          property_type:      state.answers['property_type']?.text || '',
-          construction_type:  state.answers['construction_type']?.text || '',
-          area:               state.answers['area'] || '',
-          listed:             state.answers['listed']?.text || '',
-          pm_timeline:        state.answers['pm_timeline']?.text || '',
-          pm_price_strategy:  state.answers['pm_price_strategy']?.text || '',
-          pm_docs:            state.answers['pm_docs']?.text || '',
-          pm_priority:        state.answers['pm_priority']?.text || '',
-          om_offers:          state.answers['om_offers']?.text || '',
-          om_viewings:        state.answers['om_viewings']?.text || '',
-          om_price_basis:     state.answers['om_price_basis']?.text || '',
-          om_changes:         state.answers['om_changes']?.text || '',
-          fears:              (state.answers['fears'] || []).join(', ')
-        };
-        const res = await fetch('https://tkzgggyebjiubqldpywi.supabase.co/rest/v1/leads', {
-          method: 'POST',
-          headers: {
-            'Content-Type':  'application/json',
-            'apikey':        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRremdnZ3llYmppdWJxbGRweXdpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQzNTI2MjIsImV4cCI6MjA4OTkyODYyMn0.N_3InZ1B0AZn9yB54AhIDG1FG9krMpCwaIFt0_2fOkg',
-            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRremdnZ3llYmppdWJxbGRweXdpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQzNTI2MjIsImV4cCI6MjA4OTkyODYyMn0.N_3InZ1B0AZn9yB54AhIDG1FG9krMpCwaIFt0_2fOkg',
-            'Prefer':        'return=representation',   // tells Supabase to return the inserted row
-          },
-          body: JSON.stringify(anonPayload)
-        });
-        const rows = await res.json();
-        if (rows && rows[0] && rows[0].id) state.dbRowId = rows[0].id;
-      } catch(e) { console.warn('Anon insert error:', e); }
-    })();
-  }  
+  const clientTier = getClientTier(clientScore);  
 
   const ringColor = clientScore >= 65 ? '#4caf82'
                   : clientScore >= 45 ? '#c9a84c'
@@ -738,21 +693,15 @@ function renderResult(root) {
     };
 
     try {
-      const contactPatch = { name, phone, email, is_anonymous: false };
-      const url = state.dbRowId
-        ? `https://tkzgggyebjiubqldpywi.supabase.co/rest/v1/leads?id=eq.${state.dbRowId}`
-        : 'https://tkzgggyebjiubqldpywi.supabase.co/rest/v1/leads';
-      const method = state.dbRowId ? 'PATCH' : 'POST';
-      const body   = state.dbRowId ? contactPatch : payload;
-      await fetch(url, {
-        method,
+      await fetch('https://tkzgggyebjiubqldpywi.supabase.co/rest/v1/leads', {
+        method: 'POST',
         headers: {
           'Content-Type':  'application/json',
           'apikey':        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRremdnZ3llYmppdWJxbGRweXdpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQzNTI2MjIsImV4cCI6MjA4OTkyODYyMn0.N_3InZ1B0AZn9yB54AhIDG1FG9krMpCwaIFt0_2fOkg',
           'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRremdnZ3llYmppdWJxbGRweXdpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQzNTI2MjIsImV4cCI6MjA4OTkyODYyMn0.N_3InZ1B0AZn9yB54AhIDG1FG9krMpCwaIFt0_2fOkg',
           'Prefer':        'return=minimal'
         },
-        body: JSON.stringify(body)
+        body: JSON.stringify(payload)
       });
     } catch(e) { console.warn('Supabase error:', e); }
 
