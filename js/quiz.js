@@ -384,6 +384,20 @@ function goBack() {
   render();
 }
 
+function goToLanding() {
+  var qr = document.getElementById('quiz-root');
+  var lp = document.getElementById('landing-page');
+  qr.style.transition = 'opacity 0.35s ease';
+  qr.style.opacity = '0';
+  setTimeout(function () {
+    qr.style.display = 'none';
+    lp.style.display = 'flex';
+    lp.style.opacity = '0';
+    lp.style.transition = 'opacity 0.35s ease';
+    setTimeout(function () { lp.style.opacity = '1'; }, 30);
+  }, 350);
+}
+
 function renderStep(root, steps) {
   const q        = steps[state.currentStep];
   const progress = (state.currentStep / TOTAL_STEPS) * 100;
@@ -410,7 +424,7 @@ function renderStep(root, steps) {
     <div class="nav-row">
   ${state.currentStep > 0
     ? `<button class="back-btn" id="back-btn">← Назад</button>`
-    : `<span></span>`}
+      : `<button class="back-btn" id="back-btn">← Назад</button>`}
   <button class="next-btn" id="next-btn" disabled>
     ${isLast ? 'Вижте резултата →' : 'Следващ въпрос →'}
   </button>
@@ -451,7 +465,7 @@ function renderStep(root, steps) {
     }
   };
   const backBtn = document.getElementById('back-btn');
-  if (backBtn) backBtn.onclick = goBack;
+  if (backBtn) backBtn.onclick = state.currentStep === 0 ? goToLanding : goBack;
 }
 
 // ─── INPUT RENDERER ───────────────────────────────────────────────────────────
