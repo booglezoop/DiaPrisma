@@ -706,6 +706,13 @@ body { margin: 0; padding: 0; }
     gap: 2.5rem;
     align-items: flex-start;
   }
+  .lp-cta {
+    display: flex;
+    justify-content: center;
+  }
+  .lp-meta {
+    justify-content: center;
+  }
   .lp-hero-graphic { align-self: center; }
   .lp-trust-inner { flex-direction: column; gap: 1.5rem; }
   .lp-trust-card  { padding: 0; }
