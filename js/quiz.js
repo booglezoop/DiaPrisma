@@ -623,14 +623,14 @@ function renderResult(root) {
     </div>
 
     <div class="contact-box">
-      <div class="contact-box-title">Искате конкретен план за действие?</div>
-      <div class="contact-box-sub">Оставете контакт и ще се свържем с вас за безплатна 15-минутна консултация — без ангажимент.</div>
+      <div class="contact-box-title">Следващата стъпка: 15-минутна консултация с експерт</div>
+      <div class="contact-box-sub">Въз основа на вашите отговори, имаме конкретни препоръки. Оставете телефон и ще се свържем в рамките на 24 часа.</div>
       <div class="field-row">
         <input class="field-input" type="text"  placeholder="Вашето име"         id="inp-name"/>
         <input class="field-input" type="tel" placeholder="Телефон" id="inp-phone" inputmode="numeric" maxlength="15" pattern="[0-9+\\s\\-]{7,15}"/>
         <input class="field-input" type="email" placeholder="Имейл (по желание)" id="inp-email"/>
       </div>
-      <button class="submit-btn" id="submit-btn">Получете безплатен план за продажба →</button>
+      <button class="submit-btn" id="submit-btn">Запазете безплатната консултация →</button>
       <div class="thankyou-msg" id="ty-msg" style="display:none">Благодарим! Ще се свържем с вас скоро.</div>
     </div>
 
