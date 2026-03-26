@@ -596,6 +596,7 @@ function renderResult(root) {
 
   const ringColor = clientScore >= 65 ? '#4caf82'
                   : clientScore >= 45 ? '#c9a84c'
+                  : clientScore >= 30 ? '#e07a2f'
                   : '#C0272D';
 
   const r = 68, cx = 80, cy = 80;
@@ -606,11 +607,11 @@ function renderResult(root) {
   wrap.innerHTML = `
     <div class="score-ring-wrap">
       <svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="rgba(0,0,0,0.06)" stroke-width="8"/>
+        <circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${ringColor}22" stroke-width="8"/>
         <circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${ringColor}" stroke-width="8"
           stroke-dasharray="0 ${circ}" stroke-linecap="round" id="score-arc"/>
       </svg>
-      <div class="score-number" id="score-num">0</div>
+      <div class="score-number" id="score-num" style="color:${ringColor}">0</div>
     </div>
 
     <div class="score-label">Готовност за продажба</div>
