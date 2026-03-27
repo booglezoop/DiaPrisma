@@ -697,17 +697,13 @@ function renderResult(root) {
     };
 
     try {
-      await fetch('https://tkzgggyebjiubqldpywi.supabase.co/rest/v1/leads', {
+      const res = await fetch('/.netlify/functions/submit-lead', {
         method: 'POST',
-        headers: {
-          'Content-Type':  'application/json',
-          'apikey':        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRremdnZ3llYmppdWJxbGRweXdpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQzNTI2MjIsImV4cCI6MjA4OTkyODYyMn0.N_3InZ1B0AZn9yB54AhIDG1FG9krMpCwaIFt0_2fOkg',
-          'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRremdnZ3llYmppdWJxbGRweXdpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQzNTI2MjIsImV4cCI6MjA4OTkyODYyMn0.N_3InZ1B0AZn9yB54AhIDG1FG9krMpCwaIFt0_2fOkg',
-          'Prefer':        'return=minimal'
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
       });
-    } catch(e) { console.warn('Supabase error:', e); }
+      if (!res.ok) console.warn('Submission error:', await res.text());
+    } catch(e) { console.warn('Submission error:', e); }
 
 
     document.getElementById('submit-btn').style.display = 'none';
