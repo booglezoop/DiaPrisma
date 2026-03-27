@@ -436,6 +436,13 @@ function renderStep(root, steps) {
   const subArea  = document.getElementById('sub-area');
   const nextBtn  = document.getElementById('next-btn');
 
+  // If returning to the branch question with an existing answer, set track immediately
+  // before renderInput fires — this ensures getSteps() returns the correct length
+  // for the Next button label evaluation
+  if (q.isBranch && state.answers['listed']) {
+    state.track = state.answers['listed'].value === 'yes' ? 'on' : 'pre';
+  }
+
   renderInput(q, mainArea, nextBtn, () => {
     if (q.isBranch && state.answers['listed']) {
       state.track = state.answers['listed'].value === 'yes' ? 'on' : 'pre';
@@ -443,11 +450,8 @@ function renderStep(root, steps) {
     if (q.subQuestion) refreshSubQuestion(q, subArea, nextBtn);
   });
 
-  // Restore sub-question if returning to this step
+  // Restore sub-question state on back-navigation
   if (q.subQuestion && state.answers[q.id]) {
-    if (q.isBranch && state.answers['listed']) {
-      state.track = state.answers['listed'].value === 'yes' ? 'on' : 'pre';
-    }
     refreshSubQuestion(q, subArea, nextBtn);
   }
 
