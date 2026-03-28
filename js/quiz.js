@@ -696,21 +696,46 @@ function renderResult(root) {
       fears:              (state.answers['fears'] || []).join(', ')
     };
 
+    const submitBtn = document.getElementById('submit-btn');
+    const tyMsg     = document.getElementById('ty-msg');
+
+    submitBtn.textContent = 'Изпращане...';
+    submitBtn.disabled = true;
+
     try {
-      const res = await fetch('/.netlify/functions/submit-lead', {
-        method: 'POST',
+      const res  = await fetch('/.netlify/functions/submit-lead', {
+        method:  'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
+        body:    JSON.stringify(payload)
       });
-      if (!res.ok) console.warn('Submission error:', await res.text());
-    } catch(e) { console.warn('Submission error:', e); }
 
+      const data = await res.json();
 
-    document.getElementById('submit-btn').style.display = 'none';
-    document.getElementById('ty-msg').style.display = 'block';
-    ['inp-name','inp-phone','inp-email'].forEach(id => document.getElementById(id).disabled = true);
-  };
+      if (!res.ok) {
+        // Show the server's validation message if available, else generic fallback
+        const msg = data?.error || 'Възникна грешка. Моля, опитайте отново.';
+        alert(msg);
+        submitBtn.textContent = 'Получете безплатен план за продажба →';
+        submitBtn.disabled = false;
+        state.submitted = false;
+        return;
+      }
 
+      // Success
+      submitBtn.style.display = 'none';
+      tyMsg.style.display = 'block';
+      ['inp-name','inp-phone','inp-email'].forEach(id => {
+        document.getElementById(id).disabled = true;
+      });
+
+    } catch (e) {
+      // Network failure — offline, timeout, etc.
+      console.warn('Submission error:', e);
+      alert('Няма връзка. Проверете интернет и опитайте отново.');
+      submitBtn.textContent = 'Получете безплатен план за продажба →';
+      submitBtn.disabled = false;
+      state.submitted = false;
+    }          
   // Restart
   document.getElementById('restart-btn').onclick = () => {
     state = { currentStep: 0, track: null, answers: {}, submitted: false };
