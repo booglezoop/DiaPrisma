@@ -736,6 +736,7 @@ function renderResult(root) {
       submitBtn.disabled = false;
       state.submitted = false;
     }
+  };
     
   // Restart
   document.getElementById('restart-btn').onclick = () => {
