@@ -735,7 +735,7 @@ function renderResult(root) {
       submitBtn.textContent = 'Получете безплатен план за продажба →';
       submitBtn.disabled = false;
       state.submitted = false;
-    };
+    }
     
   // Restart
   document.getElementById('restart-btn').onclick = () => {
