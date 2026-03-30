@@ -667,7 +667,7 @@ function renderResult(root) {
       <label class="privacy-check-row">
         <input type="checkbox" id="inp-privacy">
         <span class="privacy-check-label">
-          Съгласявам се предоставените от мен данни (име, телефон и имейл) да бъдат използвани за връзка с мен във връзка със заявката ми и потвърждавам, че съм прочел
+          С изпращането на формата се съгласявам с
           <a href="privacy.html" target="_blank" rel="noopener">Политиката за поверителност</a>.
         </span>
       </label>
