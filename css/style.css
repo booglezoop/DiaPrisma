@@ -470,6 +470,7 @@ body { margin: 0; padding: 0; }
   border-bottom: 0.5px solid rgba(0,0,0,0.07);
   display: flex;
   align-items: center;
+  justify-content: space-between;
 }
 
 .lp-logo {
@@ -477,6 +478,24 @@ body { margin: 0; padding: 0; }
   width: auto;
   object-fit: contain;
 }
+
+/* ── Nav social icons ── */
+
+.lp-nav-social {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.lp-social-link {
+  color: #9CA3AF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s;
+}
+
+.lp-social-link:hover { color: #C0272D; }
 
 .lp-hero {
   flex: 1;
