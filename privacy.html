@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Политика за поверителност — DOMA Real Estate Bulgaria</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: #FFFFFF;
+      color: #111110;
+      margin: 0;
+      padding: 0;
+    }
+
+    .pp-nav {
+      padding: 1rem 2.5rem;
+      border-bottom: 0.5px solid rgba(0,0,0,0.07);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .pp-logo {
+      height: clamp(50px, 8vw, 90px);
+      width: auto;
+      object-fit: contain;
+    }
+
+    .pp-back-link {
+      font-size: 0.82rem;
+      color: #C0272D;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: opacity 0.2s;
+    }
+
+    .pp-back-link:hover { opacity: 0.7; }
+
+    .pp-wrap {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 4rem 2.5rem 6rem;
+    }
+
+    .pp-eyebrow {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #C0272D;
+      margin-bottom: 1rem;
+    }
+
+    .pp-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      font-weight: 500;
+      color: #1E3A8A;
+      line-height: 1.2;
+      margin: 0 0 0.75rem;
+    }
+
+    .pp-meta {
+      font-size: 0.82rem;
+      color: #9CA3AF;
+      margin-bottom: 3rem;
+      padding-bottom: 2rem;
+      border-bottom: 0.5px solid rgba(0,0,0,0.08);
+    }
+
+    .pp-section { margin-bottom: 2.5rem; }
+
+    .pp-section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem;
+      font-weight: 500;
+      color: #1E3A8A;
+      margin: 0 0 0.9rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 0.5px solid rgba(192,39,45,0.15);
+    }
+
+    .pp-section p {
+      font-size: 0.92rem;
+      line-height: 1.8;
+      color: #374151;
+      margin: 0 0 0.9rem;
+    }
+
+    .pp-section p:last-child { margin-bottom: 0; }
+
+    .pp-section ul {
+      margin: 0 0 0.9rem 1.25rem;
+      padding: 0;
+    }
+
+    .pp-section ul li {
+      font-size: 0.92rem;
+      line-height: 1.8;
+      color: #374151;
+      margin-bottom: 0.35rem;
+    }
+
+    .pp-highlight {
+      background: rgba(192,39,45,0.04);
+      border: 0.5px solid rgba(192,39,45,0.2);
+      border-radius: 10px;
+      padding: 1.1rem 1.25rem;
+      margin-bottom: 0.9rem;
+    }
+
+    .pp-highlight p { margin: 0; font-size: 0.92rem; line-height: 1.8; color: #374151; }
+
+    .pp-highlight a { color: #C0272D; text-decoration: none; }
+    .pp-highlight a:hover { text-decoration: underline; }
+
+    .pp-data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+      margin-bottom: 0.9rem;
+    }
+
+    .pp-data-table th {
+      text-align: left;
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #C0272D;
+      font-weight: 500;
+      padding: 0.5rem 0.75rem;
+      border-bottom: 0.5px solid rgba(192,39,45,0.2);
+    }
+
+    .pp-data-table td {
+      padding: 0.7rem 0.75rem;
+      color: #374151;
+      line-height: 1.6;
+      border-bottom: 0.5px solid rgba(0,0,0,0.06);
+      vertical-align: top;
+    }
+
+    .pp-data-table tr:last-child td { border-bottom: none; }
+
+    .pp-contact-box {
+      background: #F9F8F6;
+      border: 0.5px solid rgba(0,0,0,0.08);
+      border-radius: 12px;
+      padding: 1.5rem;
+    }
+
+    .pp-contact-box p {
+      margin: 0 0 0.4rem;
+    }
+
+    .pp-contact-box a { color: #C0272D; text-decoration: none; }
+    .pp-contact-box a:hover { text-decoration: underline; }
+
+    .lp-footer {
+      padding: 1.25rem 2.5rem;
+      border-top: 0.5px solid rgba(0,0,0,0.07);
+      font-size: 0.75rem;
+      color: #9CA3AF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    .lp-meta-sep { opacity: 0.5; }
+
+    @media (max-width: 600px) {
+      .pp-wrap { padding: 2.5rem 1.5rem 4rem; }
+      .pp-nav  { padding: 1rem 1.5rem; }
+      .pp-data-table { font-size: 0.82rem; }
+      .pp-data-table th, .pp-data-table td { padding: 0.55rem 0.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="pp-nav">
+    <img src="assets/doma-logo.png" alt="DOMA Real Estate Bulgaria" class="pp-logo">
+    <a href="index.html" class="pp-back-link">← Обратно към началото</a>
+  </nav>
+
+  <div class="pp-wrap">
+
+    <div class="pp-eyebrow">Правна информация</div>
+    <h1 class="pp-title">Политика за поверителност</h1>
+    <p class="pp-meta">Последна актуализация: юни 2025 г. &nbsp;·&nbsp; ДОМА РИЪЛ ЕСТЕЙТ ЕООД</p>
+
+    <!-- 1. Администратор -->
+    <div class="pp-section">
+      <h2 class="pp-section-title">1. Администратор на лични данни</h2>
+      <div class="pp-highlight">
+        <p><strong>ДОМА РИЪЛ ЕСТЕЙТ ЕООД</strong><br>
+        гр. Пловдив (4000), р-н Южен, ул. Димо Хаджидимов № 4, ет. 3, ап. 18, България<br>
+        Представлявано от: Антон Нанков Кинанев<br>
+        Електронна поща: <a href="mailto:domarealestatebulgaria@gmail.com">domarealestatebulgaria@gmail.com</a></p>
+      </div>
+      <p>„Администратор" означава лицето, което определя целите и средствата за обработване на лични данни. ДОМА РИЪЛ ЕСТЕЙТ ЕООД е администратор по смисъла на Общия регламент относно защитата на данните (GDPR) — Регламент (ЕС) 2016/679.</p>
+    </div>
+
+    <!-- 2. Обхват -->
+    <div class="pp-section">
+      <h2 class="pp-section-title">2. За какво се прилага тази политика</h2>
+      <p>Настоящата политика описва как обработваме личните данни при използване на инструмента за диагностика <strong>„Panikiller Sell Faster System"</strong>, достъпен на уебсайта на ДОМА РИЪЛ ЕСТЕЙТ ЕООД.</p>
+      <p>Попълването на теста не води до съхранение на лични данни и не изисква идентификация на потребителя. Отговорите се обработват локално в браузъра с цел визуализиране на резултат.</p>
+      <p>Лични данни се събират и съхраняват единствено ако доброволно изпратите контактната форма след получаване на резултата.</p>
+    </div>
+
+    <!-- 3. Какви данни -->
+    <div class="pp-section">
+      <h2 class="pp-section-title">3. Какви лични данни събираме и защо</h2>
+      <p>При изпращане на контактната форма събираме следните категории данни:</p>
+      <table class="pp-data-table">
+        <thead>
+          <tr>
+            <th>Категория данни</th>
+            <th>Конкретни данни</th>
+            <th>Цел</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Данни за контакт</strong></td>
+            <td>Имена, телефонен номер, имейл адрес (по желание)</td>
+            <td>Свързване за консултация при изразен интерес</td>
+          </tr>
+          <tr>
+            <td><strong>Данни за имота</strong></td>
+            <td>Населено място, квартал, вид имот, площ, конструктивен тип</td>
+            <td>Генериране на персонализирана диагноза</td>
+          </tr>
+          <tr>
+            <td><strong>Данни за продажбата</strong></td>
+            <td>Статус, ценова стратегия, оферти, огледи, документация, срокове</td>
+            <td>Оценка на готовността за продажба и идентифициране на рискове</td>
+          </tr>
+          <tr>
+            <td><strong>Технически данни</strong></td>
+            <td>IP адрес</td>
+            <td>Записва се единствено при изпращане на формата с цел защита срещу злоупотреби и ограничаване на броя заявки</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>Данните от теста се съхраняват и свързват с конкретно лице единствено ако формата бъде изпратена. В противен случай те не напускат устройството на потребителя и не се записват в наша система.</p>
+      <p>Предоставянето на лични данни е изцяло доброволно, но е необходимо, за да можем да се свържем с вас и да предложим консултация.</p>
+      <p>Имейл адресът е незадължителен. Всички останали полета в контактната форма са необходими за предоставяне на услугата.</p>
+    </div>
+
+    <!-- 4. Правно основание -->
+    <div class="pp-section">
+      <h2 class="pp-section-title">4. Правно основание за обработването</h2>
+      <p>Обработваме личните ви данни на основание <strong>легитимен интерес</strong> по чл. 6, пар. 1, б. „е" от GDPR, както и във връзка с доброволно инициирано от вас взаимодействие.</p>
+      <ul>
+        <li>Вие доброволно използвате инструмента с цел да получите оценка и насоки относно продажбата на имот.</li>
+        <li>След получаване на резултата имате възможност по собствена преценка да изпратите контактната форма.</li>
+        <li>ДОМА РИЪЛ ЕСТЕЙТ ЕООД има легитимен интерес да се свърже с лица, които изрично са заявили интерес към консултация.</li>
+      </ul>
+      <p>С изпращането на формата Вие изразявате съгласие да бъдете потърсени от представител на ДОМА РИЪЛ ЕСТЕЙТ ЕООД във връзка с направеното запитване.</p>
+      <p>IP адресът се обработва единствено при изпращане на формата с цел защита срещу злоупотреби и гарантиране сигурността на услугата.</p>
+    </div>
+
+    <!-- 5. Срокове -->
+    <div class="pp-section">
+      <h2 class="pp-section-title">5. Срокове за съхранение</h2>
+      <table class="pp-data-table">
+        <thead>
+          <tr>
+            <th>Вид данни</th>
+            <th>Срок на съхранение</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Данни от теста и контактна информация</td>
+            <td>12 месеца от датата на подаване</td>
+          </tr>
+          <tr>
+            <td>IP адрес</td>
+            <td>30 дни, след което се заличава автоматично</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>След изтичане на посочените срокове данните се изтриват или анонимизират необратимо.</p>
+    </div>
+
+    <!-- 6. Получатели -->
+    <div class="pp-section">
+      <h2 class="pp-section-title">6. Получатели и обработващи лични данни</h2>
+      <p>Данните ви не се продават и не се споделят с трети страни за рекламни цели. Използваме следните технически доставчици в качеството им на <strong>обработващи лични данни</strong>:</p>
+      <table class="pp-data-table">
+        <thead>
+          <tr>
+            <th>Доставчик</th>
+            <th>Роля</th>
+            <th>Местонахождение на данните</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Supabase Inc.</strong></td>
+            <td>База данни — съхранява отговорите и контактната информация</td>
+            <td>EU West (Ирландия) — в рамките на ЕС</td>
+          </tr>
+          <tr>
+            <td><strong>Netlify Inc.</strong></td>
+            <td>Хостинг на уебсайта и сървърни функции</td>
+            <td>Инфраструктура в ЕС/САЩ (стандартни договорни клаузи)</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>Базата данни е локализирана в Ирландия и остава изцяло в рамките на Европейския съюз.</p>
+    </div>
+
+    <!-- 7. Права -->
+    <div class="pp-section">
+      <h2 class="pp-section-title">7. Вашите права</h2>
+      <p>Съгласно GDPR имате следните права по отношение на личните си данни:</p>
+      <ul>
+        <li><strong>Право на достъп</strong> — да получите копие от данните, които съхраняваме за вас.</li>
+        <li><strong>Право на коригиране</strong> — да поискате поправка на неточни данни.</li>
+        <li><strong>Право на изтриване</strong> — да поискате изтриване на данните ви („право да бъдеш забравен").</li>
+        <li><strong>Право на ограничаване</strong> — да поискате ограничаване на обработването при определени условия.</li>
+        <li><strong>Право на възражение</strong> — да възразите срещу обработване на основание легитимен интерес.</li>
+        <li><strong>Право на преносимост</strong> — да получите данните си в структуриран, машинночетим формат.</li>
+      </ul>
+      <p>За упражняване на което и да е от горните права се свържете с нас на адреса по-долу. Ще отговорим в срок от 30 дни.</p>
+    </div>
+
+    <!-- 8. Жалби -->
+    <div class="pp-section">
+      <h2 class="pp-section-title">8. Право на жалба пред надзорен орган</h2>
+      <p>Ако считате, че обработването на личните ви данни нарушава приложимото законодателство, имате право да подадете жалба до <strong>Комисията за защита на личните данни (КЗЛД)</strong>:</p>
+      <div class="pp-highlight">
+        <p><strong>Комисия за защита на личните данни</strong><br>
+        бул. „Проф. Цветан Лазаров" № 2, София 1592<br>
+        Уебсайт: <a href="https://www.cpdp.bg" target="_blank" rel="noopener">www.cpdp.bg</a><br>
+        Имейл: <a href="mailto:kzld@cpdp.bg">kzld@cpdp.bg</a></p>
+      </div>
+    </div>
+
+    <!-- 9. Промени -->
+    <div class="pp-section">
+      <h2 class="pp-section-title">9. Промени в политиката</h2>
+      <p>Може да актуализираме тази политика при промяна в начина на обработване на данните или при законодателни изменения. Актуалната версия винаги е публикувана на тази страница с датата на последна актуализация.</p>
+    </div>
+
+    <!-- 10. Контакт -->
+    <div class="pp-section">
+      <h2 class="pp-section-title">10. Контакт за въпроси по поверителността</h2>
+      <div class="pp-contact-box">
+        <p><strong>ДОМА РИЪЛ ЕСТЕЙТ ЕООД</strong></p>
+        <p>гр. Пловдив (4000), р-н Южен, ул. Димо Хаджидимов № 4, ет. 3, ап. 18</p>
+        <p>Електронна поща: <a href="mailto:domarealestatebulgaria@gmail.com">domarealestatebulgaria@gmail.com</a></p>
+        <p style="margin-top:0.75rem; font-size:0.82rem; color:#9CA3AF;">Моля, посочете „Заявка за лични данни" в заглавието на имейла.</p>
+      </div>
+    </div>
+
+  </div>
+
+  <footer class="lp-footer">
+    <span>© 2025 DOMA Real Estate Bulgaria</span>
+    <span class="lp-meta-sep">·</span>
+    <span>ДОМА РИЪЛ ЕСТЕЙТ ЕООД</span>
+  </footer>
+
+</body>
+</html>
