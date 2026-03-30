@@ -484,7 +484,7 @@ body { margin: 0; padding: 0; }
 .lp-nav-social {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 22px;
 }
 
 .lp-social-link {
