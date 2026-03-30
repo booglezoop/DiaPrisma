@@ -3,8 +3,8 @@
 // Architecture:
 //   steps 0–3  → shared (Q1–Q4)
 //   step  4    → Q5 branch point (listed yes/no)
-//   steps 5–8  → track-specific (pre-market OR on-market)
-//   step  9    → Q9 shared fears (multiselect)
+//   steps 5–9  → track-specific (pre-market OR on-market)
+//   step  9    → Q10 shared fears (multiselect)
 //
 // Client score: starts at 85, deductions applied, floor at 20.
 // Lead score:   additive, capped at 100.
@@ -76,7 +76,7 @@ const branchQuestion = {
   ]
 };
 
-// ── Pre-market track (Q5a–Q8a) ───────────────────────────────────────────────
+// ── Pre-market track (Q5a–Q9a) ───────────────────────────────────────────────
 const preMarketTrack = [
   {
     id: 'pm_timeline',
@@ -127,7 +127,7 @@ const preMarketTrack = [
   }
 ];
 
-// ── On-market track (Q5b–Q8b) ────────────────────────────────────────────────
+// ── On-market track (Q5b–Q9b) ────────────────────────────────────────────────
 const onMarketTrack = [
   {
     id: 'om_offers',
@@ -178,7 +178,7 @@ const onMarketTrack = [
   }
 ];
 
-// ── Q9: Shared fears (both tracks) ───────────────────────────────────────────
+// ── Q10: Shared fears (both tracks) ───────────────────────────────────────────
 const fearsQuestion = {
   id: 'fears',
   text: 'Кое от следното ви притеснява най-много?',
@@ -186,11 +186,11 @@ const fearsQuestion = {
   scored: true,
   maxSelect: 2,
   options: [
-    { text: 'Притеснявам се, че ще продам на по-ниска цена от реалната', value: 'undervalue',    leadPoints: 10 },
-    { text: 'Не знам дали имотът ми е правилно оценен',             value: 'positioning',   leadPoints: 5  },
-    { text: 'Имам нужда от бърза продажба, но не получавам оферти',       value: 'fast_no_offer', leadPoints: 10 },
-    { text: 'Притеснявам се от правни или документални проблеми',         value: 'legal',         leadPoints: 5  },
-    { text: 'Не знам дали да се доверя на брокер',                        value: 'trust_broker',  leadPoints: 5  }
+    { text: 'Не знам дали имотът ме е правилно оценен',             value: 'positioning',   leadPoints: 8,  exclusive: false },
+    { text: 'Имам нужда от бърза продажба, но не получавам оферти', value: 'fast_no_offer', leadPoints: 10, exclusive: false },
+    { text: 'Притеснявам се от правни или документални проблеми',   value: 'legal',         leadPoints: 8,  exclusive: false },
+    { text: 'Не знам дали да се доверя на брокер',                  value: 'trust_broker',  leadPoints: 6,  exclusive: false },
+    { text: 'Нищо не ме притеснява',                                value: 'no_concern',    leadPoints: 0,  exclusive: true, clientDeduction: 5 }
   ]
 };
 
@@ -258,11 +258,14 @@ function computeScores() {
     if (priority) { leadRaw += priority.leadPoints; }
   }
 
-  // Fears — lead quality only
+  // Fears — lead quality + client deduction for no_concern
   const fears = state.answers['fears'] || [];
   fears.forEach(fv => {
     const opt = fearsQuestion.options.find(o => o.value === fv);
-    if (opt) leadRaw += opt.leadPoints;
+    if (opt) {
+      leadRaw += opt.leadPoints;
+      if (opt.clientDeduction) deductions += opt.clientDeduction;
+    }
     if (fv === 'fast_no_offer') leadRaw += 5; // urgency multiplier
   });
 
@@ -528,7 +531,9 @@ function renderInput(q, container, nextBtn, onChange) {
 
     const hint = document.createElement('div');
     hint.className = 'multiselect-hint';
-    hint.textContent = `Изберете до ${q.maxSelect || 2} отговора`;
+    hint.textContent = q.id === 'fears'
+      ? 'Изберете до 2 отговора (или „Нищо не ме притеснява")'
+      : `Изберете до ${q.maxSelect || 2} отговора`;
     container.appendChild(hint);
 
     const list = document.createElement('div');
@@ -542,15 +547,39 @@ function renderInput(q, container, nextBtn, onChange) {
         const arr = state.answers[q.id];
         const idx = arr.indexOf(o.value);
         if (idx > -1) {
+          // Deselect this option
           arr.splice(idx, 1);
           btn.classList.remove('selected');
-        } else if (arr.length < (q.maxSelect || 99)) {
-          arr.push(o.value);
-          btn.classList.add('selected');
+        } else {
+          if (o.exclusive) {
+            // Selecting an exclusive option: clear everything else first
+            arr.length = 0;
+            list.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+            arr.push(o.value);
+            btn.classList.add('selected');
+          } else {
+            // Selecting a normal option: clear any exclusive option first
+            const exclusiveIdx = arr.findIndex(v => {
+              const opt = q.options.find(op => op.value === v);
+              return opt && opt.exclusive;
+            });
+            if (exclusiveIdx > -1) {
+              const exclusiveVal = arr[exclusiveIdx];
+              arr.splice(exclusiveIdx, 1);
+              list.querySelectorAll('.option-btn').forEach(b => {
+                if (b.dataset.value === exclusiveVal) b.classList.remove('selected');
+              });
+            }
+            if (arr.length < (q.maxSelect || 99)) {
+              arr.push(o.value);
+              btn.classList.add('selected');
+            }
+          }
         }
         nextBtn.disabled = arr.length === 0;
         if (onChange) onChange();
       };
+      btn.dataset.value = o.value;
       list.appendChild(btn);
     });
 
