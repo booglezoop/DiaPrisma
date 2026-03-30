@@ -300,6 +300,28 @@
     transition: border-color 0.2s;
   }
 
+  .privacy-check-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-top: 12px;
+    font-size: 13px;
+    line-height: 1.4;
+  }
+
+  .privacy-check-row input {
+    margin-top: 3px;
+  }
+
+  .privacy-check-label a {
+    text-decoration: underline;
+  }
+
+  .privacy-check-error {
+    margin-top: 6px;
+    font-size: 12px;
+  }
+
   .field-input:focus { border-color: #C0272D; }
   .field-input::placeholder { color: #9CA3AF; }
 
