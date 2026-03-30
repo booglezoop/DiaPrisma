@@ -495,6 +495,7 @@ function renderInput(q, container, nextBtn, onChange) {
     inp.className = 'field-input';
     inp.type = 'text';
     inp.placeholder = q.placeholder || '';
+    inp.maxLength = q.id === 'area' ? 50 : 200; // The sanitise() function caps it at 50 characters server-side, but there's no maxlength attribute on the input in the browser.
     inp.value = state.answers[q.id] || '';
     inp.oninput = () => { state.answers[q.id] = inp.value.trim(); if (onChange) onChange(); };
     inp.onblur  = () => { state.answers[q.id] = inp.value.trim(); };
