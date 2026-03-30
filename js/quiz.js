@@ -171,7 +171,7 @@ const onMarketTrack = [
     scored: false,
     options: [
       { text: 'Не',                  value: 'none',       deduction: 0, leadPoints: 0  },
-      { text: 'Да, снижих цената',   value: 'price_cut',  deduction: 0, leadPoints: 10 },
+      { text: 'Да, намалих цената',   value: 'price_cut',  deduction: 0, leadPoints: 10 },
       { text: 'Да, смених снимките', value: 'new_photos', deduction: 0, leadPoints: 5  },
       { text: 'Да, смених брокера',  value: 'new_broker', deduction: 0, leadPoints: 15 }
     ]
@@ -187,7 +187,7 @@ const fearsQuestion = {
   maxSelect: 2,
   options: [
     { text: 'Притеснявам се, че ще продам на по-ниска цена от реалната', value: 'undervalue',    leadPoints: 10 },
-    { text: 'Не знам дали имотът ми е правилно позициониран',             value: 'positioning',   leadPoints: 5  },
+    { text: 'Не знам дали имотът ми е правилно оценен',             value: 'positioning',   leadPoints: 5  },
     { text: 'Имам нужда от бърза продажба, но не получавам оферти',       value: 'fast_no_offer', leadPoints: 10 },
     { text: 'Притеснявам се от правни или документални проблеми',         value: 'legal',         leadPoints: 5  },
     { text: 'Не знам дали да се доверя на брокер',                        value: 'trust_broker',  leadPoints: 5  }
@@ -309,7 +309,7 @@ function getPrimaryRisk() {
     return {
       title: 'Цената на имота ви носи риск',
       body:  track === 'on'
-        ? 'Цена, определена по лична нужда или препоръка, рядко съвпада с пазарната реалност. Прекалено висока — отблъсква купувачи. Прекалено ниска — губите пари.'
+        ? 'Цена, определена по лична нужда или препоръка, рядко съвпада с пазарната реалност. Прекалено висока — отблъсква купувачи. Прекалено ниска — губите пари и у купувачите се поражда притеснение за скрити дефекти.'
         : 'Ценова стратегия, базирана на лична преценка, е втората най-честа причина имоти да стоят месеци без оферта. Пазарната оценка преди пускане е инвестиция, не разход.',
       secondary: buildSecondary(3, track, omPrice, pmPrice, docs, fears)
     };
@@ -337,7 +337,7 @@ function buildSecondary(skipTier, track, omPrice, pmPrice, docs, fears) {
   const activePriceAnswer = omPrice || pmPrice;
 
   if (skipTier !== 3 && activePriceAnswer && mispricedValues.includes(activePriceAnswer.value)) {
-    return 'Освен това начинът, по който е определена цената, носи допълнителен риск от неправилно позициониране.';
+    return 'Освен това начинът, по който е определена цената, носи допълнителен риск от неправилно ценово позициониране.';
   }
   if (skipTier !== 4 && track === 'pre' && docs && docs.value !== 'ready') {
     return 'Освен това не сте проверили документацията — това е втората най-честа причина за забавени или пропаднали сделки.';
