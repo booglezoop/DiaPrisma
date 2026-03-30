@@ -717,6 +717,14 @@ body { margin: 0; padding: 0; }
   gap: 8px;
 }
 
+.lp-footer a {
+  color: #9CA3AF;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.lp-footer a:hover { color: #C0272D; }
+
 #quiz-root {
   flex-direction: column;
   align-items: center;
