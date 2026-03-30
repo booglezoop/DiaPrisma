@@ -300,6 +300,29 @@
     transition: border-color 0.2s;
   }
 
+  .privacy-check-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-top: 12px;
+    color: #6b7280;
+    font-size: 13px;
+    line-height: 1.4;
+  }
+
+  .privacy-check-row input {
+    margin-top: 3px;
+  }
+
+  .privacy-check-label a {
+    text-decoration: underline;
+  }
+
+  .privacy-check-error {
+    margin-top: 6px;
+    font-size: 12px;
+  }
+
   .field-input:focus { border-color: #C0272D; }
   .field-input::placeholder { color: #9CA3AF; }
 
@@ -693,6 +716,14 @@ body { margin: 0; padding: 0; }
   justify-content: center;
   gap: 8px;
 }
+
+.lp-footer a {
+  color: #9CA3AF;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.lp-footer a:hover { color: #C0272D; }
 
 #quiz-root {
   flex-direction: column;

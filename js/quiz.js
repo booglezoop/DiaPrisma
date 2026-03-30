@@ -635,6 +635,16 @@ function renderResult(root) {
         <input class="field-input" type="tel" placeholder="Телефон" id="inp-phone" inputmode="numeric" maxlength="15" pattern="[0-9+\\s\\-]{7,15}"/>
         <input class="field-input" type="email" placeholder="Имейл (по желание)" id="inp-email"/>
       </div>
+      <label class="privacy-check-row">
+        <input type="checkbox" id="inp-privacy">
+        <span class="privacy-check-label">
+          Съгласявам се предоставените от мен данни (име, телефон и имейл) да бъдат използвани за връзка с мен във връзка със заявката ми и потвърждавам, че съм прочел
+          <a href="privacy.html" target="_blank" rel="noopener">Политиката за поверителност</a>.
+        </span>
+      </label>
+      <p class="privacy-check-error" id="privacy-check-error" style="display:none;">
+        Моля, приемете политиката за поверителност.
+      </p>
       <button class="submit-btn" id="submit-btn">Запазете безплатната консултация →</button>
       <div class="thankyou-msg" id="ty-msg" style="display:none">Благодарим! Ще се свържем с вас скоро.</div>
     </div>
@@ -662,10 +672,14 @@ function renderResult(root) {
     const name  = document.getElementById('inp-name').value.trim();
     const phone = document.getElementById('inp-phone').value.trim();
     const email = document.getElementById('inp-email').value.trim();
+    const privacyChecked = document.getElementById('inp-privacy').checked;
+    const privacyError   = document.getElementById('privacy-check-error');
     const phoneClean = phone.replace(/[\s\-]/g, '');
     const phoneValid = /^\+?[0-9]{7,15}$/.test(phoneClean);
     if (!name || !phone) { alert('Моля, въведете имe и телефон.'); return; }
     if (!phoneValid) { alert('Моля, въведете валиден телефонен номер.'); return; }
+    if (!privacyChecked) {privacyError.style.display = 'block'; privacyError.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); return;}
+  privacyError.style.display = 'none';
     if (state.submitted) return;
     state.submitted = true;
 
