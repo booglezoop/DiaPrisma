@@ -474,7 +474,7 @@ body { margin: 0; padding: 0; }
 }
 
 .lp-logo {
-  height: clamp(80px, 14vw, 170px); /*scales the logo fluidly between 80px on small screens and 170px on large ones*/
+  height: clamp(150px, 14vw, 270px); 
   width: auto;
   object-fit: contain;
 }
