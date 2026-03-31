@@ -71,8 +71,8 @@ const branchQuestion = {
   scored: false,
   isBranch: true,
   options: [
-    { text: 'Да, имотът е активна обява',   value: 'yes' },
-    { text: 'Не, все още не съм го пуснал', value: 'no'  }
+    { text: 'Да, имотът има активна обява',   value: 'yes' },
+    { text: 'Не, имотът все още не е обявен', value: 'no'  }
   ]
 };
 
@@ -80,14 +80,14 @@ const branchQuestion = {
 const preMarketTrack = [
   {
     id: 'pm_timeline',
-    text: 'Кога планирате да пуснете имота?',
+    text: 'Кога планирате да обявите имота?',
     type: 'radio',
     scored: true,
     options: [
       { text: 'До 1 месец',       value: 'within1',   deduction: 0,  leadPoints: 15 },
-      { text: '1–3 месеца',       value: 'within3',   deduction: 0,  leadPoints: 15 },
-      { text: '3–6 месеца',       value: 'within6',   deduction: 3,  leadPoints: 5  },
-      { text: 'Още не съм решил', value: 'undecided', deduction: 5,  leadPoints: 0  }
+      { text: 'До 1–3 месеца',       value: 'within3',   deduction: 0,  leadPoints: 15 },
+      { text: 'До 3–6 месеца',       value: 'within6',   deduction: 3,  leadPoints: 5  },
+      { text: 'Още не съм решил/а', value: 'undecided', deduction: 5,  leadPoints: 0  }
     ]
   },
   {
@@ -99,7 +99,7 @@ const preMarketTrack = [
       { text: 'Консултация с брокер',      value: 'broker',   deduction: 0,  leadPoints: 0  },
       { text: 'Сравнение с подобни обяви', value: 'market',   deduction: 8,  leadPoints: 5  },
       { text: 'По лична преценка',          value: 'personal', deduction: 15, leadPoints: 20 },
-      { text: 'Още не съм мислил',          value: 'none',     deduction: 10, leadPoints: 10 }
+      { text: 'Още не съм мислил/а',          value: 'none',     deduction: 10, leadPoints: 10 }
     ]
   },
   {
@@ -109,7 +109,7 @@ const preMarketTrack = [
     scored: true,
     options: [
       { text: 'Да, всичко е наред',  value: 'ready',     deduction: 0,  leadPoints: 0  },
-      { text: 'Не съм проверявал',   value: 'unchecked', deduction: 12, leadPoints: 15 },
+      { text: 'Не съм проверявал/а',   value: 'unchecked', deduction: 12, leadPoints: 15 },
       { text: 'Имам притеснения',    value: 'concerns',  deduction: 12, leadPoints: 15 }
     ]
   },
@@ -135,7 +135,7 @@ const onMarketTrack = [
     type: 'radio',
     scored: true,
     options: [
-      { text: '0 — не съм получил нито една', value: '0',   deduction: 0, leadPoints: 0  },
+      { text: '0 — не съм получил/а нито една', value: '0',   deduction: 0, leadPoints: 0  },
       { text: '1–3',                           value: '1-3', deduction: 0, leadPoints: 10 },
       { text: '4–10',                          value: '4-10',deduction: 0, leadPoints: 5  },
       { text: '10+',                           value: '10+', deduction: 0, leadPoints: 0  }
@@ -148,7 +148,7 @@ const onMarketTrack = [
     scored: true,
     options: [
       { text: 'Не',          value: 'none', deduction: 0,  leadPoints: 0  },
-      { text: 'Да, няколко', value: 'some', deduction: 20, leadPoints: 25 },
+      { text: 'Да, няколко', value: 'some', deduction: 15, leadPoints: 25 },
       { text: 'Да, много',   value: 'many', deduction: 20, leadPoints: 25 }
     ]
   },
@@ -166,7 +166,7 @@ const onMarketTrack = [
   },
   {
     id: 'om_changes',
-    text: 'Правили ли сте промени по обявата от пускането досега?',
+    text: 'Правили ли сте промени по обявата от създаването ѝ досега?',
     type: 'radio',
     scored: false,
     options: [
@@ -292,7 +292,7 @@ function getPrimaryRisk() {
   if (track === 'on' && viewings && (viewings.value === 'some' || viewings.value === 'many')) {
     return {
       title: 'Имотът ви привлича огледи, но не и оферти',
-      body:  'Това е класически сигнал за проблем с цената или презентацията — купувачите идват, виждат, и решават, че не си заслужава. Без корекция тази динамика ще продължи.',
+      body:  'Това е класически сигнал за проблем с цената или презентацията - купувачите идват, виждат, и решават, че не си заслужава. Без корекция тази динамика ще продължи.',
       secondary: buildSecondary(1, track, omPrice, pmPrice, docs, fears)
     };
   }
@@ -301,7 +301,7 @@ function getPrimaryRisk() {
   if (track === 'on' && offers && offers.value === '0' && viewings && viewings.value === 'none') {
     return {
       title: 'Обявата ви не достига до правилните купувачи',
-      body:  'Нулеви огледи означава проблем с позиционирането или маркетинга — имотът не е видим там, където търсят активните купувачи. Това не е проблем на имота, а на стратегията.',
+      body:  'Нулеви огледи означава проблем с позиционирането или маркетинга - имотът не е видим там, където търсят активните купувачи. Това не е проблем на имота, а на стратегията.',
       secondary: buildSecondary(2, track, omPrice, pmPrice, docs, fears)
     };
   }
@@ -312,7 +312,7 @@ function getPrimaryRisk() {
     return {
       title: 'Цената на имота ви носи риск',
       body:  track === 'on'
-        ? 'Цена, определена по лична нужда или препоръка, рядко съвпада с пазарната реалност. Прекалено висока — отблъсква купувачи. Прекалено ниска — губите пари и у купувачите се поражда притеснение за скрити дефекти.'
+        ? 'Цена, определена по лична нужда или препоръка, рядко съвпада с пазарната реалност. Прекалено висока - отблъсква купувачи. Прекалено ниска - губите пари и у купувачите се поражда притеснение за скрити дефекти.'
         : 'Ценова стратегия, базирана на лична преценка, е втората най-честа причина имоти да стоят месеци без оферта. Пазарната оценка преди пускане е инвестиция, не разход.',
       secondary: buildSecondary(3, track, omPrice, pmPrice, docs, fears)
     };
@@ -322,15 +322,15 @@ function getPrimaryRisk() {
   if (track === 'pre' && docs && docs.value !== 'ready') {
     return {
       title: 'Документацията крие потенциални рискове',
-      body:  'Некоректна или непроверена документация може да спре сделка в последния момент — след месеци чакане и разходи. По-лесно и по-евтино е да се провери сега, отколкото след подписан предварителен договор.',
+      body:  'Некоректна или непроверена документация може да спре сделка в последния момент - след месеци чакане и разходи. По-лесно и по-евтино е да се провери сега, отколкото след подписан предварителен договор.',
       secondary: buildSecondary(4, track, omPrice, pmPrice, docs, fears)
     };
   }
 
   // Tier 5 — Strategic unpreparedness
   return {
-    title: 'Имотът ви има потенциал — но планът липсва',
-    body:  'Продавачите, които влизат на пазара без ясна стратегия, губят средно 8–12% от крайната цена. Добрата новина: преди пускане е точният момент да се поправи това.',
+    title: 'Имотът ви има потенциал - но планът липсва',
+    body:  'Продавачите, които влизат на пазара без ясна стратегия, губят средно 8–12% от крайната цена. Добрата новина: преди обява е точният момент да се поправи това.',
     secondary: buildSecondary(5, track, omPrice, pmPrice, docs, fears)
   };
 }
@@ -343,10 +343,10 @@ function buildSecondary(skipTier, track, omPrice, pmPrice, docs, fears) {
     return 'Освен това начинът, по който е определена цената, носи допълнителен риск от неправилно ценово позициониране.';
   }
   if (skipTier !== 4 && track === 'pre' && docs && docs.value !== 'ready') {
-    return 'Освен това не сте проверили документацията — това е втората най-честа причина за забавени или пропаднали сделки.';
+    return 'Освен това не сте проверили документацията - това е втората най-честа причина за забавени или пропаднали сделки.';
   }
   if (fears.includes('fast_no_offer')) {
-    return 'Отбелязали сте нужда от бърза продажба — това прави навременното действие още по-важно.';
+    return 'Отбелязали сте нужда от бърза продажба - това прави навременното действие още по-важно.';
   }
   return null;
 }
@@ -658,7 +658,7 @@ function renderResult(root) {
 
     <div class="contact-box">
       <div class="contact-box-title">Следващата стъпка: 15-минутна консултация с експерт</div>
-      <div class="contact-box-sub">Въз основа на вашите отговори, имаме конкретни препоръки. Оставете телефон и ще се свържем в рамките на 24 часа.</div>
+      <div class="contact-box-sub">Въз основа на вашите отговори, имаме конкретни препоръки. Оставете телефон и ще се свържем с вас в рамките на 24 часа.</div>
       <div class="field-row">
         <input class="field-input" type="text"  placeholder="Вашето име"         id="inp-name"/>
         <input class="field-input" type="tel" placeholder="Телефон" id="inp-phone" inputmode="numeric" maxlength="15" pattern="[0-9+\\s\\-]{7,15}"/>
