@@ -482,6 +482,8 @@ function renderInput(q, container, nextBtn, onChange) {
   if (q.type === 'dropdown') {
     const sel = document.createElement('select');
     sel.className = 'field-input dropdown-input';
+    sel.id = q.id;
+    sel.name = q.id;
     sel.innerHTML = `<option value="">— Изберете град —</option>` +
       q.options.map(o => `<option value="${o}" ${state.answers[q.id] === o ? 'selected' : ''}>${o}</option>`).join('');
     sel.onchange = () => {
