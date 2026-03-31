@@ -119,7 +119,7 @@ exports.handler = async function (event) {
       }
     );
     const existing = await rateLimitRes.json();
-    if (Array.isArray(existing) && existing.length >= 5) {
+    if (Array.isArray(existing) && existing.length >= 10) {
       log(requestId, 'WARN', 'Rate limit hit', { ip });
       return {
         statusCode: 429,
