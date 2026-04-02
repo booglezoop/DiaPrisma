@@ -300,6 +300,21 @@
     transition: border-color 0.2s;
   }
 
+  .privacy-notice {
+  font-size: 0.78rem;
+  color: #9CA3AF;
+  line-height: 1.55;
+  margin-bottom: 12px;
+  }
+
+  .privacy-notice a {
+    color: #9CA3AF;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .privacy-notice a:hover { color: #C0272D; }
+
   .field-input:focus { border-color: #C0272D; }
   .field-input::placeholder { color: #9CA3AF; }
 
