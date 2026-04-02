@@ -144,6 +144,7 @@
   <script src="js/quiz.js"></script>
   <script>
     document.getElementById('lp-start-btn').addEventListener('click', function () {
+      if (window.umami) umami.track('quiz-started'); // Umami analytics - Quiz started — did the CTA click convert to Q1
       var lp = document.getElementById('landing-page');
       var qr = document.getElementById('quiz-root');
       lp.style.transition = 'opacity 0.35s ease';
