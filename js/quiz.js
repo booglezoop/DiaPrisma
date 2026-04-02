@@ -449,6 +449,7 @@ function renderStep(root, steps) {
   renderInput(q, mainArea, nextBtn, () => {
     if (q.isBranch && state.answers['listed']) {
       state.track = state.answers['listed'].value === 'yes' ? 'on' : 'pre';
+      if (window.umami) umami.track('quiz-track-selected', { track: state.track }); // Umami analytics - Track selected - which branch (pre-market vs on-market) and in what ratio
     }
     if (q.subQuestion) refreshSubQuestion(q, subArea, nextBtn);
   });
@@ -459,6 +460,12 @@ function renderStep(root, steps) {
   }
 
   nextBtn.onclick = () => {
+    // Umami analytics - Each step completion (step number and question ID tracking drop-off)
+    if (window.umami) umami.track('quiz-step-completed', {  
+    step: state.currentStep + 1,
+    question: q.id
+    });
+    // drop-off
     const inp = mainArea.querySelector('input.field-input');
     if (inp && q.type === 'text') state.answers[q.id] = inp.value.trim();
     state.currentStep++;
@@ -622,6 +629,7 @@ function refreshSubQuestion(q, subArea, nextBtn) {
 
 // ─── RESULT SCREEN ────────────────────────────────────────────────────────────
 function renderResult(root) {
+  if (window.umami) umami.track('quiz-completed'); // Umami analytics - quiz completion (reached results page)
   root = document.getElementById('quiz-inner');
   root.innerHTML = '';
 
@@ -712,6 +720,7 @@ function renderResult(root) {
     if (!privacyChecked) {privacyError.style.display = 'block'; privacyError.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); return;}
   privacyError.style.display = 'none';
     if (state.submitted) return;
+    if (window.umami) umami.track('form-submitted'); // Umami analytics - contact form submitted (primary conversion event)
     state.submitted = true;
 
     const payload = {
@@ -769,6 +778,7 @@ function renderResult(root) {
 
       // Success
       submitBtn.style.display = 'none';
+      if (window.umami) umami.track('form-success'); // Umami analytics - Contact form success (server confirmed the submission) 
       tyMsg.style.display = 'block';
       ['inp-name','inp-phone','inp-email'].forEach(id => {
         document.getElementById(id).disabled = true;
