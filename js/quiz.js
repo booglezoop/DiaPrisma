@@ -449,7 +449,7 @@ function renderStep(root, steps) {
   renderInput(q, mainArea, nextBtn, () => {
     if (q.isBranch && state.answers['listed']) {
       state.track = state.answers['listed'].value === 'yes' ? 'on' : 'pre';
-      if (window.umami) umami.track('quiz-track-selected', { track: state.track }); // Umami analytics - Track selected - which branch (pre-market vs on-market) and in what ratio
+      if (window.umami) umami.track('quiz-track-selected' + state.track); // Umami analytics - Track selected - which branch (pre-market vs on-market) and in what ratio
     }
     if (q.subQuestion) refreshSubQuestion(q, subArea, nextBtn);
   });
