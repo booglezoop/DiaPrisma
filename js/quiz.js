@@ -186,7 +186,7 @@ const fearsQuestion = {
   scored: true,
   maxSelect: 2,
   options: [
-    { text: 'Не знам дали имотът ме е правилно оценен',             value: 'positioning',   leadPoints: 8,  exclusive: false },
+    { text: 'Не знам дали имотът е правилно оценен',             value: 'positioning',   leadPoints: 8,  exclusive: false },
     { text: 'Имам нужда от бърза продажба, но не получавам оферти', value: 'fast_no_offer', leadPoints: 10, exclusive: false },
     { text: 'Притеснявам се от правни или документални проблеми',   value: 'legal',         leadPoints: 8,  exclusive: false },
     { text: 'Не знам дали да се доверя на брокер',                  value: 'trust_broker',  leadPoints: 6,  exclusive: false },
