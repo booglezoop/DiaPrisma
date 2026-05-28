@@ -63,8 +63,8 @@ exports.handler = async function (event) {
   const { name, phone, email } = payload;
   const errors = [];
 
-  if (!name || typeof name !== 'string' || name.trim().length < 2) {
-    errors.push('Моля, въведете вашето име.');
+  if (!name || typeof name !== 'string' || name.trim().length < 2 || !/[а-яА-ЯёЁa-zA-Z]/.test(name)) {
+    errors.push('Моля, въведете вашето истинско ime.');
   }
   if (name && name.trim().length > 100) {
     errors.push('Името е твърде дълго.');
