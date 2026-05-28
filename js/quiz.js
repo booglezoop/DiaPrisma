@@ -719,8 +719,9 @@ document.getElementById('submit-btn').onclick = async () => {
 
     let hasError = false;
 
-    if (!name || name.length < 2) {
-      showFieldError('error-name', 'Моля, въведете вашето име (поне 2 символа).');
+    const nameValid = name.length >= 2 && /[а-яА-ЯёЁa-zA-Z]/.test(name);
+    if (!name || !nameValid) {
+      showFieldError('error-name', 'Моля, въведете вашето истинско име.');
       hasError = true;
     } else {
       clearFieldError('error-name');
