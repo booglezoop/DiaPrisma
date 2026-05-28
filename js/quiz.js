@@ -669,11 +669,6 @@ function renderResult(root) {
     <div class="contact-box">
       <div class="contact-box-title">Следващата стъпка: безплатна консултация</div>
       <div class="contact-box-sub">Оставете телефон и ще се свържем с вас в рамките на 48 часа. Разработвам този инструмент самостоятелно и ще се радвам да чуя дали диагнозата отговаря на реалността ви.</div>
-      <div class="field-row">
-        <input class="field-input" type="text" placeholder="Вашето име" id="inp-name"/>
-        <input class="field-input" type="tel" placeholder="Телефон" id="inp-phone" inputmode="numeric" maxlength="15" pattern="[0-9+\\s\\-]{7,15}"/>
-        <input class="field-input" type="email" placeholder="Имейл (по желание)" id="inp-email"/>
-      </div>
       <div class="form-error" id="form-error" style="display:none"></div>
       <p class="privacy-notice">С изпращането потвърждавате, че сте запознати с нашата <a href="privacy.html" target="_blank" rel="noopener">Политика за поверителност</a>.</p>
       <button class="submit-btn" id="submit-btn">Запазете безплатната консултация →</button>
@@ -699,24 +694,43 @@ function renderResult(root) {
   })(performance.now());
 
   // Submit
-  document.getElementById('submit-btn').onclick = async () => {
+document.getElementById('submit-btn').onclick = async () => {
     const name  = document.getElementById('inp-name').value.trim();
     const phone = document.getElementById('inp-phone').value.trim();
     const email = document.getElementById('inp-email').value.trim();
     const phoneClean = phone.replace(/[\s\-]/g, '');
     const phoneValid = /^\+?[0-9]{7,15}$/.test(phoneClean);
-    const showError = (msg) => {
-      const el = document.getElementById('form-error');
+
+    const showFieldError = (id, msg) => {
+      const el = document.getElementById(id);
       el.textContent = msg;
       el.style.display = 'block';
     };
-    const clearError = () => {
-      const el = document.getElementById('form-error');
+    const clearFieldError = (id) => {
+      const el = document.getElementById(id);
       if (el) el.style.display = 'none';
     };
-    if (!name || !phone) { showError('Моля, въведете име и телефон.'); return; }
-    if (!phoneValid) { showError('Моля, въведете валиден телефонен номер.'); return; }
-    clearError();
+
+    let hasError = false;
+
+    if (!name || name.length < 2) {
+      showFieldError('error-name', 'Моля, въведете вашето име (поне 2 символа).');
+      hasError = true;
+    } else {
+      clearFieldError('error-name');
+    }
+
+    if (!phone) {
+      showFieldError('error-phone', 'Моля, въведете телефонен номер.');
+      hasError = true;
+    } else if (!phoneValid) {
+      showFieldError('error-phone', 'Моля, въведете валиден телефонен номер.');
+      hasError = true;
+    } else {
+      clearFieldError('error-phone');
+    }
+
+    if (hasError) return;
     if (state.submitted) return;
     if (window.umami) umami.track('form-submitted'); // Umami analytics - contact form submitted (primary conversion event)
     state.submitted = true;
