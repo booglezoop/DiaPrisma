@@ -410,9 +410,9 @@ function renderStep(root, steps) {
   wrap.className = 'fade-in';
   wrap.innerHTML = `
     <div class="brand">
-      <div class="brand-eyebrow">DOMA Real Estate Bulgaria</div>
+      <div class="brand-eyebrow">Илиян Донев · Независим консултант</div>
       <div class="brand-title">Разберете защо имотът ви не се продава.</div>
-      <div class="brand-trust">Безплатна консултация от експерт брокер</div>
+      <div class="brand-trust">Безплатна консултация от независим експерт</div>
     </div>
     <div class="progress-bar-wrap">
       <div class="progress-bar-fill" style="width:${progress}%"></div>
@@ -667,16 +667,17 @@ function renderResult(root) {
     </div>
 
     <div class="contact-box">
-      <div class="contact-box-title">Следващата стъпка: 15-минутна консултация с експерт</div>
-      <div class="contact-box-sub">Въз основа на вашите отговори, имаме конкретни препоръки. Оставете телефон и ще се свържем с вас в рамките на 24 часа.</div>
+      <div class="contact-box-title">Следващата стъпка: безплатна консултация</div>
+      <div class="contact-box-sub">Оставете телефон и ще се свържем с вас в рамките на 48 часа. Разработвам този инструмент самостоятелно и ще се радвам да чуя дали диагнозата отговаря на реалността ви.</div>
       <div class="field-row">
-        <input class="field-input" type="text"  placeholder="Вашето име"         id="inp-name"/>
+        <input class="field-input" type="text" placeholder="Вашето име" id="inp-name"/>
         <input class="field-input" type="tel" placeholder="Телефон" id="inp-phone" inputmode="numeric" maxlength="15" pattern="[0-9+\\s\\-]{7,15}"/>
         <input class="field-input" type="email" placeholder="Имейл (по желание)" id="inp-email"/>
       </div>
+      <div class="form-error" id="form-error" style="display:none"></div>
       <p class="privacy-notice">С изпращането потвърждавате, че сте запознати с нашата <a href="privacy.html" target="_blank" rel="noopener">Политика за поверителност</a>.</p>
       <button class="submit-btn" id="submit-btn">Запазете безплатната консултация →</button>
-      <div class="thankyou-msg" id="ty-msg" style="display:none">Благодарим! Ще се свържем с вас скоро.</div>
+      <div class="thankyou-msg" id="ty-msg" style="display:none">Благодарим! Ще се свържем с вас в рамките на 48 часа.</div>
     </div>
 
     <button class="restart-link" id="restart-btn">Започни отначало</button>
@@ -704,8 +705,18 @@ function renderResult(root) {
     const email = document.getElementById('inp-email').value.trim();
     const phoneClean = phone.replace(/[\s\-]/g, '');
     const phoneValid = /^\+?[0-9]{7,15}$/.test(phoneClean);
-    if (!name || !phone) { alert('Моля, въведете имe и телефон.'); return; }
-    if (!phoneValid) { alert('Моля, въведете валиден телефонен номер.'); return; }
+    const showError = (msg) => {
+      const el = document.getElementById('form-error');
+      el.textContent = msg;
+      el.style.display = 'block';
+    };
+    const clearError = () => {
+      const el = document.getElementById('form-error');
+      if (el) el.style.display = 'none';
+    };
+    if (!name || !phone) { showError('Моля, въведете име и телефон.'); return; }
+    if (!phoneValid) { showError('Моля, въведете валиден телефонен номер.'); return; }
+    clearError();
     if (state.submitted) return;
     if (window.umami) umami.track('form-submitted'); // Umami analytics - contact form submitted (primary conversion event)
     state.submitted = true;
@@ -756,8 +767,8 @@ function renderResult(root) {
       if (!res.ok) {
         // Show the server's validation message if available, else generic fallback
         const msg = data?.error || 'Възникна грешка. Моля, опитайте отново.';
-        alert(msg);
-        submitBtn.textContent = 'Получете безплатен план за продажба →';
+        showError(msg);
+        submitBtn.textContent = 'Запазете безплатната консултация →';
         submitBtn.disabled = false;
         state.submitted = false;
         return;
@@ -774,8 +785,8 @@ function renderResult(root) {
     } catch (e) {
       // Network failure — offline, timeout, etc.
       console.warn('Submission error:', e);
-      alert('Няма връзка. Проверете интернет и опитайте отново.');
-      submitBtn.textContent = 'Получете безплатен план за продажба →';
+      showError('Няма връзка. Проверете интернет и опитайте отново.');
+      submitBtn.textContent = 'Запазете безплатната консултация →';
       submitBtn.disabled = false;
       state.submitted = false;
     }

@@ -1,4 +1,4 @@
- @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=DM+Sans:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=DM+Sans:wght@400;500&display=swap');
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -335,6 +335,18 @@
 
   .submit-btn:hover { opacity: 0.88; }
 
+
+  .form-error {
+    font-size: 0.82rem;
+    color: #C0272D;
+    background: rgba(192,39,45,0.06);
+    border: 0.5px solid rgba(192,39,45,0.25);
+    border-radius: 6px;
+    padding: 8px 12px;
+    margin-bottom: 10px;
+    line-height: 1.5;
+  }
+
   .thankyou-msg {
     font-size: 0.85rem;
     color: #9CA3AF;
@@ -465,29 +477,18 @@ body { margin: 0; padding: 0; }
   justify-content: space-between;
 }
 
-.lp-logo {
-  height: clamp(150px, 14vw, 270px); 
-  width: auto;
-  object-fit: contain;
+.lp-nav-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #1E3A8A;
 }
 
-/* ── Nav social icons ── */
-
-.lp-nav-social {
-  display: flex;
-  align-items: center;
-  gap: 22px;
-}
-
-.lp-social-link {
+.lp-nav-descriptor {
+  font-size: 0.78rem;
   color: #9CA3AF;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: color 0.2s;
+  letter-spacing: 0.01em;
 }
-
-.lp-social-link:hover { color: #C0272D; }
 
 .lp-hero {
   flex: 1;
