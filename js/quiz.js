@@ -669,7 +669,13 @@ function renderResult(root) {
     <div class="contact-box">
       <div class="contact-box-title">Следващата стъпка: безплатна консултация</div>
       <div class="contact-box-sub">Оставете телефон и ще се свържем с вас в рамките на 48 часа. Разработвам този инструмент самостоятелно и ще се радвам да чуя дали диагнозата отговаря на реалността ви.</div>
-      <div class="form-error" id="form-error" style="display:none"></div>
+      <div class="field-row">
+        <input class="field-input" type="text" placeholder="Вашето име" id="inp-name"/>
+        <div class="form-error" id="error-name" style="display:none"></div>
+        <input class="field-input" type="tel" placeholder="Телефон" id="inp-phone" inputmode="numeric" maxlength="15" pattern="[0-9+\\s\\-]{7,15}"/>
+        <div class="form-error" id="error-phone" style="display:none"></div>
+        <input class="field-input" type="email" placeholder="Имейл (по желание)" id="inp-email"/>
+      </div>
       <p class="privacy-notice">С изпращането потвърждавате, че сте запознати с нашата <a href="privacy.html" target="_blank" rel="noopener">Политика за поверителност</a>.</p>
       <button class="submit-btn" id="submit-btn">Запазете безплатната консултация →</button>
       <div class="thankyou-msg" id="ty-msg" style="display:none">Благодарим! Ще се свържем с вас в рамките на 48 часа.</div>
