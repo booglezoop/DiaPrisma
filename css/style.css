@@ -344,11 +344,15 @@
   }
 
   .thankyou-msg {
-    font-size: 0.85rem;
-    color: #C0272D; 
-    text-align: center;
-    margin-top: 0.75rem;
-    line-height: 1.5;
+    font-size: 0.95rem;
+  font-weight: 500;
+  color: #ffffff;
+  background: #C0272D;
+  text-align: center;
+  margin-top: 0.75rem;
+  line-height: 1.5;
+  padding: 12px 16px;
+  border-radius: 8px;
   }
 
   .restart-link {
