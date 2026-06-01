@@ -285,6 +285,7 @@ function getPrimaryRisk() {
   const pmPrice    = state.answers['pm_price_strategy'];
   const docs       = state.answers['pm_docs'];
   const fears      = state.answers['fears'] || [];
+  const changes    = state.answers['om_changes'];
 
   const mispricedValues = ['personal', 'friend', 'none'];
 
