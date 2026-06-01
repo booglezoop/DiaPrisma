@@ -278,71 +278,105 @@ function computeScores() {
 // Priority: 1 market rejection → 2 invisible listing → 3 mispricing
 //           → 4 legal/docs risk → 5 strategic unpreparedness
 function getPrimaryRisk() {
-  const track      = state.track;
-  const offers     = state.answers['om_offers'];
-  const viewings   = state.answers['om_viewings'];
-  const omPrice    = state.answers['om_price_basis'];
-  const pmPrice    = state.answers['pm_price_strategy'];
-  const docs       = state.answers['pm_docs'];
-  const fears      = state.answers['fears'] || [];
-  const changes    = state.answers['om_changes'];
+  const track    = state.track;
+  const offers   = state.answers['om_offers'];
+  const viewings = state.answers['om_viewings'];
+  const omPrice  = state.answers['om_price_basis'];
+  const pmPrice  = state.answers['pm_price_strategy'];
+  const docs     = state.answers['pm_docs'];
+  const changes  = state.answers['om_changes'];
+  const fears    = state.answers['fears'] || [];
 
   const mispricedValues = ['personal', 'friend', 'none'];
 
   // Tier 1 — Market rejection
   if (track === 'on' && viewings && (viewings.value === 'some' || viewings.value === 'many')) {
-    
-    const manyViewings = viewings.value === 'many';
-    const pricedPoorly = omPrice && ['personal', 'friend'].includes(omPrice.value);
+
+    const manyViewings  = viewings.value === 'many';
+    const pricedPoorly  = omPrice && ['personal', 'friend'].includes(omPrice.value);
     const pricedByBroker = omPrice && omPrice.value === 'broker';
+    const cutPrice      = changes && changes.value === 'price_cut';
     const triedSomething = changes && changes.value !== 'none';
-    const cutPrice = changes && changes.value === 'price_cut';
-  
+    const hasOffers     = offers && offers.value !== '0';
+
     let body;
-  
-    if (pricedByBroker && manyViewings) {
-      // Priced correctly but still many viewings — presentation problem
+
+    if (hasOffers && pricedByBroker) {
+      // Got offers, priced by broker — something breaking at negotiation stage
+      body = 'Получили сте оферти, което означава че имотът привлича сериозен интерес. Проблемът е на финалната крачка — нещо в преговорния процес или в начина на представяне на имота спира купувачите да потвърдят решението си.';
+    } else if (hasOffers && pricedPoorly) {
+      // Got offers but priced poorly — offers likely too low, seller probably rejected them
+      body = 'Получили сте оферти, но цена, определена по лична преценка или препоръка, често води до пропаст между очакванията на продавача и това което купувачът е готов да плати. Офертите идват, но не на нивото, което сте очаквали.';
+    } else if (pricedByBroker && manyViewings) {
+      // Priced by broker, many viewings — presentation problem not price
       body = 'Цената е определена професионално, което означава че проблемът е най-вероятно в презентацията — снимки, описание, или как имотът се представя по време на оглед. Купувачите идват с интерес, но нещо ги спира на място.';
     } else if (pricedPoorly && manyViewings) {
-      // Personal/friend pricing + many viewings — price is almost certainly the issue
+      // Personal/friend pricing + many viewings — price almost certainly the issue
       body = 'Много огледи без оферта е почти сигурен сигнал за ценова грешка. Купувачите идват, сравняват с алтернативите, и решават че не си заслужава. Цена, определена по лична преценка или препоръка, рядко съвпада с това което пазарът е готов да плати.';
+    } else if (cutPrice) {
+      // Already cut price — acknowledge, but signal it may not be enough
+      body = 'Намалението на цената е стъпка в правилната посока, но огледите без оферта показват че разликата все още не е достатъчна — или че има друг фактор, който спира купувачите на последната крачка.';
     } else if (triedSomething) {
-      // Already made changes — acknowledge the effort, redirect
-      body = cutPrice
-        ? 'Намалението на цената е стъпка в правилната посока, но огледите без оферта показват че разликата все още не е достатъчна — или че има друг фактор, който спира купувачите на последната крачка.'
-        : 'Промените по обявата показват че вече сте осъзнали проблема. Огледите без оферта обаче сочат към нещо по-дълбоко — най-вероятно ценово позициониране или начина, по който имотът се представя физически.';
+      // Made other changes — acknowledge effort, redirect
+      body = 'Промените по обявата показват че вече сте осъзнали проблема. Огледите без оферта обаче сочат към нещо по-дълбоко — най-вероятно ценово позициониране или начина, по който имотът се представя физически.';
     } else {
       // Generic — no changes made, unclear price basis
       body = 'Купувачите идват, виждат, и решават че не си заслужава. Това е класически сигнал за проблем с цената или начина, по който имотът се представя — и без корекция тази динамика ще продължи.';
     }
-  
+
     return {
       title: manyViewings
         ? 'Имотът ви привлича много огледи, но не и оферти'
         : 'Имотът ви привлича огледи, но не и оферти',
       body,
-      secondary: buildSecondary(1, track, omPrice, pmPrice, docs, fears)
+      secondary: buildSecondary(1, track, omPrice, pmPrice, docs, fears, changes)
     };
   }
 
   // Tier 2 — Invisible listing
   if (track === 'on' && offers && offers.value === '0' && viewings && viewings.value === 'none') {
+    const pricedPoorly   = omPrice && ['personal', 'friend'].includes(omPrice.value);
+    const pricedByBroker = omPrice && omPrice.value === 'broker';
+
+    let body;
+
+    if (pricedByBroker) {
+      // Priced by broker, zero visibility — pure marketing/positioning problem
+      body = 'Цената е определена професионално, което изключва ценовата грешка като основна причина. Проблемът е в това как и къде обявата достига до купувачите — имотът не е видим там, където активните купувачи търсят.';
+    } else if (pricedPoorly) {
+      // Personal pricing + zero visibility — both price and marketing problem
+      body = 'Нулеви огледи при цена, определена по лична преценка, сочи към два едновременни проблема — обявата не достига до правилните купувачи, и дори да достигне, цената може да я изключи от търсенето им. Маркетингът и ценовото позициониране трябва да се адресират заедно.';
+    } else {
+      body = 'Нулеви огледи означава проблем с позиционирането или маркетинга — имотът не е видим там, където търсят активните купувачи. Това не е проблем на имота, а на стратегията.';
+    }
+
     return {
       title: 'Обявата ви не достига до правилните купувачи',
-      body:  'Нулеви огледи означава проблем с позиционирането или маркетинга - имотът не е видим там, където търсят активните купувачи. Това не е проблем на имота, а на стратегията.',
-      secondary: buildSecondary(2, track, omPrice, pmPrice, docs, fears)
+      body,
+      secondary: buildSecondary(2, track, omPrice, pmPrice, docs, fears, changes)
     };
   }
 
   // Tier 3 — Mispricing
   const activePriceAnswer = omPrice || pmPrice;
   if (activePriceAnswer && mispricedValues.includes(activePriceAnswer.value)) {
+    const cutPrice = changes && changes.value === 'price_cut';
+
+    let body;
+
+    if (track === 'on' && cutPrice) {
+      // Already tried cutting price
+      body = 'Намалихте цената, но имотът все още не получава оферти. Това показва че или корекцията не е достатъчна, или има допълнителен фактор — презентация, видимост, или начин на водене на огледи — който задържа купувачите.';
+    } else if (track === 'on') {
+      body = 'Цена, определена по лична нужда или препоръка, рядко съвпада с пазарната реалност. Прекалено висока — отблъсква купувачи. Прекалено ниска — губите пари и у купувачите се поражда притеснение за скрити дефекти.';
+    } else {
+      body = 'Ценова стратегия, базирана на лична преценка, е втората най-честа причина имоти да стоят месеци без оферта. Пазарната оценка преди обявяване на имота е инвестиция, не разход.';
+    }
+
     return {
       title: 'Цената на имота ви носи риск',
-      body:  track === 'on'
-        ? 'Цена, определена по лична нужда или препоръка, рядко съвпада с пазарната реалност. Прекалено висока - отблъсква купувачи. Прекалено ниска - губите пари и у купувачите се поражда притеснение за скрити дефекти.'
-        : 'Ценова стратегия, базирана на лична преценка, е втората най-честа причина имоти да стоят месеци без оферта. Пазарната оценка преди обявяване на имота е инвестиция, не разход.',
-      secondary: buildSecondary(3, track, omPrice, pmPrice, docs, fears)
+      body,
+      secondary: buildSecondary(3, track, omPrice, pmPrice, docs, fears, changes)
     };
   }
 
@@ -351,7 +385,7 @@ function getPrimaryRisk() {
     return {
       title: 'Документацията крие потенциални рискове',
       body:  'Некоректна или непроверена документация може да спре сделка в последния момент - след месеци чакане и разходи. По-лесно и по-евтино е да се провери сега, отколкото след подписан предварителен договор.',
-      secondary: buildSecondary(4, track, omPrice, pmPrice, docs, fears)
+      secondary: buildSecondary(4, track, omPrice, pmPrice, docs, fears, changes)
     };
   }
 
@@ -359,23 +393,38 @@ function getPrimaryRisk() {
   return {
     title: 'Имотът ви има потенциал - но планът липсва',
     body:  'Продавачите, които влизат на пазара без ясна стратегия, губят средно 8–12% от крайната цена. Добрата новина: преди обява е точният момент да се поправи това.',
-    secondary: buildSecondary(5, track, omPrice, pmPrice, docs, fears)
+    secondary: buildSecondary(5, track, omPrice, pmPrice, docs, fears, changes)
   };
 }
 
-function buildSecondary(skipTier, track, omPrice, pmPrice, docs, fears) {
-  const mispricedValues = ['personal', 'friend', 'none'];
+function buildSecondary(skipTier, track, omPrice, pmPrice, docs, fears, changes) {
+  const mispricedValues   = ['personal', 'friend', 'none'];
   const activePriceAnswer = omPrice || pmPrice;
 
+  // Mispricing secondary — skip if already the primary diagnosis
   if (skipTier !== 3 && activePriceAnswer && mispricedValues.includes(activePriceAnswer.value)) {
     return 'Освен това начинът, по който е определена цената, носи допълнителен риск от неправилно ценово позициониране.';
   }
+
+  // Documentation secondary — pre-market only, skip if already primary
   if (skipTier !== 4 && track === 'pre' && docs && docs.value !== 'ready') {
-    return 'Освен това не сте проверили документацията - това е втората най-честа причина за забавени или пропаднали сделки.';
+    return 'Освен това не сте проверили документацията — това е втората най-честа причина за забавени или пропаднали сделки.';
   }
+
+  // Fears — in priority order, first match wins
   if (fears.includes('fast_no_offer')) {
-    return 'Отбелязали сте нужда от бърза продажба - това прави навременното действие още по-важно.';
+    return 'Отбелязали сте нужда от бърза продажба — без корекция времето работи срещу вас.';
   }
+  if (fears.includes('positioning')) {
+    return 'Отбелязали сте несигурност относно ценовото позициониране — диагнозата потвърждава че тази интуиция заслужава внимание.';
+  }
+  if (fears.includes('legal')) {
+    return 'Отбелязали сте притеснение за документация — добра идея е да се провери преди да се стигне до финална сделка.';
+  }
+  if (fears.includes('trust_broker')) {
+    return 'Отбелязали сте несигурност относно работата с брокер — разбираемо при липса на конкретни резултати.';
+  }
+
   return null;
 }
 
