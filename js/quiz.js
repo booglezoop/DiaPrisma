@@ -677,7 +677,7 @@ function renderResult(root) {
         <div class="form-error" id="error-phone" style="display:none"></div>
         <input class="field-input" type="email" placeholder="Имейл (по желание)" id="inp-email"/>
       </div>
-      <p class="privacy-notice">С изпращането потвърждавате, че сте запознати с нашата <a href="privacy.html" target="_blank" rel="noopener">Политика за поверителност</a>.</p>
+      <p class="privacy-notice">Данните ви се използват само за връзка с вас. <a href="privacy.html" target="_blank" rel="noopener">Научете повече</a>.</p>
       <button class="submit-btn" id="submit-btn">Изпратете →</button>
       <div class="thankyou-msg" id="ty-msg" style="display:none">Благодаря! Ще се свържа с вас скоро.</div>
     </div>
