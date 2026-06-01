@@ -790,7 +790,7 @@ document.getElementById('submit-btn').onclick = async () => {
         // Show the server's validation message if available, else generic fallback
         const msg = data?.error || 'Възникна грешка. Моля, опитайте отново.';
         showError(msg);
-        submitBtn.textContent = 'Запазете безплатната консултация →';
+        submitBtn.textContent = 'Изпратете →';
         submitBtn.disabled = false;
         state.submitted = false;
         return;
@@ -808,7 +808,7 @@ document.getElementById('submit-btn').onclick = async () => {
       // Network failure — offline, timeout, etc.
       console.warn('Submission error:', e);
       showError('Няма връзка. Проверете интернет и опитайте отново.');
-      submitBtn.textContent = 'Запазете безплатната консултация →';
+      submitBtn.textContent = 'Изпратете →';
       submitBtn.disabled = false;
       state.submitted = false;
     }
