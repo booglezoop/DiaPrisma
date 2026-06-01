@@ -201,9 +201,16 @@
 
   .score-label {
     font-family: 'Playfair Display', serif;
-    font-size: 1.5rem;
+    font-size: 1.1rem;
     color: #1e3a8a;
     margin-bottom: 0.5rem;
+  }
+
+  .score-sublabel {
+  font-size: 0.78rem;
+  color: #9CA3AF;
+  margin-bottom: 2rem;
+  letter-spacing: 0.04em;
   }
 
   .score-subtitle {
