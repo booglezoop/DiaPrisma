@@ -290,9 +290,36 @@ function getPrimaryRisk() {
 
   // Tier 1 — Market rejection
   if (track === 'on' && viewings && (viewings.value === 'some' || viewings.value === 'many')) {
+    
+    const manyViewings = viewings.value === 'many';
+    const pricedPoorly = omPrice && ['personal', 'friend'].includes(omPrice.value);
+    const pricedByBroker = omPrice && omPrice.value === 'broker';
+    const triedSomething = changes && changes.value !== 'none';
+    const cutPrice = changes && changes.value === 'price_cut';
+  
+    let body;
+  
+    if (pricedByBroker && manyViewings) {
+      // Priced correctly but still many viewings — presentation problem
+      body = 'Цената е определена професионално, което означава че проблемът е най-вероятно в презентацията — снимки, описание, или как имотът се представя по време на оглед. Купувачите идват с интерес, но нещо ги спира на място.';
+    } else if (pricedPoorly && manyViewings) {
+      // Personal/friend pricing + many viewings — price is almost certainly the issue
+      body = 'Много огледи без оферта е почти сигурен сигнал за ценова грешка. Купувачите идват, сравняват с алтернативите, и решават че не си заслужава. Цена, определена по лична преценка или препоръка, рядко съвпада с това което пазарът е готов да плати.';
+    } else if (triedSomething) {
+      // Already made changes — acknowledge the effort, redirect
+      body = cutPrice
+        ? 'Намалението на цената е стъпка в правилната посока, но огледите без оферта показват че разликата все още не е достатъчна — или че има друг фактор, който спира купувачите на последната крачка.'
+        : 'Промените по обявата показват че вече сте осъзнали проблема. Огледите без оферта обаче сочат към нещо по-дълбоко — най-вероятно ценово позициониране или начина, по който имотът се представя физически.';
+    } else {
+      // Generic — no changes made, unclear price basis
+      body = 'Купувачите идват, виждат, и решават че не си заслужава. Това е класически сигнал за проблем с цената или начина, по който имотът се представя — и без корекция тази динамика ще продължи.';
+    }
+  
     return {
-      title: 'Имотът ви привлича огледи, но не и оферти',
-      body:  'Това е класически сигнал за проблем с цената или презентацията - купувачите идват, виждат, и решават, че не си заслужава. Без корекция тази динамика ще продължи.',
+      title: manyViewings
+        ? 'Имотът ви привлича много огледи, но не и оферти'
+        : 'Имотът ви привлича огледи, но не и оферти',
+      body,
       secondary: buildSecondary(1, track, omPrice, pmPrice, docs, fears)
     };
   }
