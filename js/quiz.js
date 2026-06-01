@@ -658,7 +658,8 @@ function renderResult(root) {
       <div class="score-number" id="score-num" style="color:${ringColor}">0</div>
     </div>
 
-    <div class="score-label">Готовност за продажба</div>
+    <div class="score-label">${clientTier}</div>
+    <div class="score-sublabel">Готовност за продажба</div>
 
     <div class="risk-card">
       <div class="risk-card-title">${risk.title}</div>
