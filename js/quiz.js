@@ -494,9 +494,9 @@ function renderStep(root, steps) {
   wrap.className = 'fade-in';
   wrap.innerHTML = `
     <div class="brand">
-      <div class="brand-eyebrow">Илиян Донев · Независим консултант</div>
-      <div class="brand-title">Разберете защо имотът ви не се продава.</div>
-      <div class="brand-trust">Безплатна консултация от независим експерт</div>
+      <div class="brand-eyebrow">Diaprisma · Диагностичен инструмент</div>
+      <div class="brand-title">Къде стои вашият имот в процеса на продажба?</div>
+      <div class="brand-trust">10 въпроса · Персонализиран резултат</div>
     </div>
     <div class="progress-bar-wrap">
       <div class="progress-bar-fill" style="width:${progress}%"></div>
