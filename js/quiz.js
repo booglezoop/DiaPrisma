@@ -845,7 +845,9 @@ document.getElementById('submit-btn').onclick = async () => {
       om_price_basis:     state.answers['om_price_basis']?.text || '',
       om_changes:         state.answers['om_changes']?.text || '',
       // Fears
-      fears:              (state.answers['fears'] || []).join(', ')
+      fears: (state.answers['fears'] || [])
+        .map(v => fearsQuestion.options.find(o => o.value === v)?.text || v)
+        .join(', ')
     };
 
     const submitBtn = document.getElementById('submit-btn');
