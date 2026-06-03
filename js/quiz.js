@@ -328,6 +328,9 @@ function getPrimaryRisk() {
       title: manyViewings
         ? 'Имотът ви привлича много огледи, но не и оферти'
         : 'Имотът ви привлича огледи, но не и оферти',
+      agentTitle: manyViewings
+        ? 'Много огледи, нула оферти'
+        : 'Огледи без оферти',
       body,
       secondary: buildSecondary(1, track, omPrice, pmPrice, docs, fears, changes)
     };
@@ -352,6 +355,7 @@ function getPrimaryRisk() {
 
     return {
       title: 'Обявата ви не достига до правилните купувачи',
+      agentTitle: 'Невидима обява — нула огледи, нула оферти',
       body,
       secondary: buildSecondary(2, track, omPrice, pmPrice, docs, fears, changes)
     };
@@ -375,6 +379,7 @@ function getPrimaryRisk() {
 
     return {
       title: 'Цената на имота ви носи риск',
+      agentTitle: 'Рискова ценова стратегия',
       body,
       secondary: buildSecondary(3, track, omPrice, pmPrice, docs, fears, changes)
     };
@@ -384,6 +389,7 @@ function getPrimaryRisk() {
   if (track === 'pre' && docs && docs.value !== 'ready') {
     return {
       title: 'Документацията крие потенциални рискове',
+      agentTitle: 'Непроверена документация',
       body:  'Некоректна или непроверена документация може да спре сделка в последния момент - след месеци чакане и разходи. По-лесно и по-евтино е да се провери сега, отколкото след подписан предварителен договор.',
       secondary: buildSecondary(4, track, omPrice, pmPrice, docs, fears, changes)
     };
@@ -392,6 +398,7 @@ function getPrimaryRisk() {
   // Tier 5 — Strategic unpreparedness
   return {
     title: 'Имотът ви има потенциал - но планът липсва',
+    agentTitle: 'Без стратегия за продажба',
     body:  'Продавачите, които влизат на пазара без ясна стратегия, губят средно 8–12% от крайната цена. Добрата новина: преди обява е точният момент да се поправи това.',
     secondary: buildSecondary(5, track, omPrice, pmPrice, docs, fears, changes)
   };
@@ -828,6 +835,7 @@ document.getElementById('submit-btn').onclick = async () => {
       lead_quality_score: leadScore,
       lead_tier:          leadTier,
       primary_risk:       risk.title,
+      primary_risk_agent: risk.agentTitle,
       location:           state.answers['location'] || '',
       neighborhood:       state.answers['neighborhood'] || '',
       property_type:      state.answers['property_type']?.text || '',
