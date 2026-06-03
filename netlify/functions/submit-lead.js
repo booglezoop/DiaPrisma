@@ -144,6 +144,7 @@ exports.handler = async function (event) {
     lead_quality_score: Number(payload.lead_quality_score) || 0,
     lead_tier:          sanitise(payload.lead_tier, 20),
     primary_risk:       sanitise(payload.primary_risk, 200),
+    primary_risk_agent: sanitise(payload.primary_risk_agent, 200),
     location:           sanitise(payload.location, 100),
     neighborhood:       sanitise(payload.neighborhood, 100),
     property_type:      sanitise(payload.property_type, 50),
