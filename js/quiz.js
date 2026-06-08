@@ -768,7 +768,7 @@ function renderResult(root) {
 
     <div class="contact-box">
       <div class="contact-box-title">Отговаря ли диагнозата на реалността ви?</div>
-      <div class="contact-box-sub">Ако искате да споделите - оставете телефона си и ще се свържа с вас в рамките на 48 часа.</div>
+      <div class="contact-box-sub">Ако искате да разберете какво може да се направи конкретно за вашия имот — оставете телефона си. Специалист ще се свърже с вас в рамките на 48 часа.</div>
       <div class="field-row">
         <input class="field-input" type="text" placeholder="Вашето име" id="inp-name"/>
         <div class="form-error" id="error-name" style="display:none"></div>
@@ -778,7 +778,7 @@ function renderResult(root) {
       </div>
       <p class="privacy-notice">Данните ви се използват само за връзка с вас. <a href="privacy.html" target="_blank" rel="noopener">Научете повече</a>.</p>
       <button class="submit-btn" id="submit-btn">Изпратете →</button>
-      <div class="thankyou-msg" id="ty-msg" style="display:none">Благодаря! Ще се свържа с вас скоро.</div>
+      <div class="thankyou-msg" id="ty-msg" style="display:none">Получихме вашата заявка. Очаквайте обаждане в рамките на 48 часа. </div>
     </div>
 
     <button class="restart-link" id="restart-btn">Започни отначало</button>
