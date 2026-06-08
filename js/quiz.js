@@ -186,8 +186,8 @@ const fearsQuestion = {
   scored: true,
   maxSelect: 2,
   options: [
-    { text: 'Не знам дали имотът е правилно оценен',             value: 'positioning',   leadPoints: 8,  exclusive: false },
-    { text: 'Имам нужда от бърза продажба, но не получавам оферти', value: 'fast_no_offer', leadPoints: 10, exclusive: false },
+    { text: 'Не знам дали имотът е правилно оценен',                value: 'positioning',   leadPoints: 8,  exclusive: false },
+    { text: 'Имам нужда от бърза продажба',                         value: 'fast_no_offer', leadPoints: 10, exclusive: false },
     { text: 'Притеснявам се от правни или документални проблеми',   value: 'legal',         leadPoints: 8,  exclusive: false },
     { text: 'Не знам дали да се доверя на брокер',                  value: 'trust_broker',  leadPoints: 6,  exclusive: false },
     { text: 'Нищо не ме притеснява',                                value: 'no_concern',    leadPoints: 0,  exclusive: true, clientDeduction: 5 }
@@ -266,7 +266,7 @@ function computeScores() {
       leadRaw += opt.leadPoints;
       if (opt.clientDeduction) deductions += opt.clientDeduction;
     }
-    if (fv === 'fast_no_offer') leadRaw += 5; // urgency multiplier
+    if (fv === 'fast_sale') leadRaw += 5; // urgency multiplier
   });
 
   const clientScore = Math.max(20, Math.min(85, 85 - deductions));
@@ -434,8 +434,8 @@ function buildSecondary(skipTier, track, omPrice, pmPrice, docs, fears, changes)
   }
 
   // Fears — in priority order, first match wins
-  if (fears.includes('fast_no_offer')) {
-    return 'Отбелязали сте нужда от бърза продажба - без корекция времето работи срещу вас.';
+  if (fears.includes('fast_sale')) {
+    return 'Отбелязали сте нужда от бърза продажба - без ясен план времето работи срещу вас.';
   }
   if (fears.includes('positioning')) {
     return 'Отбелязали сте несигурност относно ценовото позициониране - диагнозата потвърждава че тази интуиция заслужава внимание.';
