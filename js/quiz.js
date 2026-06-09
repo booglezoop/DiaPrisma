@@ -35,11 +35,11 @@ const sharedQuestions = [
     type: 'radio',
     scored: false,
     options: [
-      { text: 'Апартамент',          value: 'apartment'  },
-      { text: 'Къща',                value: 'house'      },
-      { text: 'Търговско помещение', value: 'commercial' },
-      { text: 'Парцел',              value: 'land'       },
-      { text: 'Гараж / Паркомясто', value: 'garage'     }
+      { text: 'Апартамент',           value: 'apartment'  },
+      { text: 'Къща',                 value: 'house'      },
+      { text: 'Търговско помещение',  value: 'commercial' },
+      { text: 'Парцел',               value: 'land'       },
+      { text: 'Гараж / Паркомясто',   value: 'garage'     }
     ],
     subQuestion: {
       triggerValue: 'apartment',
@@ -48,9 +48,9 @@ const sharedQuestions = [
       type: 'radio',
       scored: false,
       options: [
-        { text: 'Тухла', value: 'brick' },
-        { text: 'Панел', value: 'panel' },
-        { text: 'ЕПК',   value: 'epk'   }
+        { text: 'Тухла',  value: 'brick' },
+        { text: 'Панел',  value: 'panel' },
+        { text: 'ЕПК',    value: 'epk'   }
       ]
     }
   },
@@ -71,8 +71,8 @@ const branchQuestion = {
   scored: false,
   isBranch: true,
   options: [
-    { text: 'Да, имотът има активна обява',   value: 'yes' },
-    { text: 'Не, имотът все още не е обявен', value: 'no'  }
+    { text: 'Да, имотът има активна обява',    value: 'yes' },
+    { text: 'Не, имотът все още не е обявен',  value: 'no'  }
   ]
 };
 
@@ -84,10 +84,10 @@ const preMarketTrack = [
     type: 'radio',
     scored: true,
     options: [
-      { text: 'До 1 месец',       value: 'within1',   deduction: 0,  leadPoints: 15 },
+      { text: 'До 1 месец',          value: 'within1',   deduction: 0,  leadPoints: 15 },
       { text: 'До 1–3 месеца',       value: 'within3',   deduction: 0,  leadPoints: 15 },
       { text: 'До 3–6 месеца',       value: 'within6',   deduction: 3,  leadPoints: 5  },
-      { text: 'Още не съм решил/а', value: 'undecided', deduction: 5,  leadPoints: 0  }
+      { text: 'Още не съм решил/а',  value: 'undecided', deduction: 5,  leadPoints: 0  }
     ]
   },
   {
@@ -96,10 +96,10 @@ const preMarketTrack = [
     type: 'radio',
     scored: true,
     options: [
-      { text: 'Консултация с брокер',      value: 'broker',   deduction: 0,  leadPoints: 0  },
-      { text: 'Сравнение с подобни обяви', value: 'market',   deduction: 8,  leadPoints: 5  },
+      { text: 'Консултация с брокер',       value: 'broker',   deduction: 0,  leadPoints: 0  },
+      { text: 'Сравнение с подобни обяви',  value: 'market',   deduction: 8,  leadPoints: 5  },
       { text: 'По лична преценка',          value: 'personal', deduction: 15, leadPoints: 20 },
-      { text: 'Още не съм мислил/а',          value: 'none',     deduction: 10, leadPoints: 10 }
+      { text: 'Още не съм мислил/а',        value: 'none',     deduction: 10, leadPoints: 10 }
     ]
   },
   {
@@ -108,9 +108,9 @@ const preMarketTrack = [
     type: 'radio',
     scored: true,
     options: [
-      { text: 'Да, всичко е наред',  value: 'ready',     deduction: 0,  leadPoints: 0  },
+      { text: 'Да, всичко е наред',    value: 'ready',     deduction: 0,  leadPoints: 0  },
       { text: 'Не съм проверявал/а',   value: 'unchecked', deduction: 12, leadPoints: 15 },
-      { text: 'Имам притеснения',    value: 'concerns',  deduction: 12, leadPoints: 15 }
+      { text: 'Имам притеснения',      value: 'concerns',  deduction: 12, leadPoints: 15 }
     ]
   },
   {
@@ -119,10 +119,10 @@ const preMarketTrack = [
     type: 'radio',
     scored: false,
     options: [
-      { text: 'Максимална цена',          value: 'max_price',  deduction: 0, leadPoints: 0  },
-      { text: 'Бърза продажба',           value: 'fast',       deduction: 0, leadPoints: 10 },
-      { text: 'Сигурност и без изненади', value: 'security',   deduction: 0, leadPoints: 5  },
-      { text: 'Минимален стрес',          value: 'low_stress', deduction: 0, leadPoints: 5  }
+      { text: 'Максимална цена',           value: 'max_price',  deduction: 0, leadPoints: 0  },
+      { text: 'Бърза продажба',            value: 'fast',       deduction: 0, leadPoints: 10 },
+      { text: 'Сигурност и без изненади',  value: 'security',   deduction: 0, leadPoints: 5  },
+      { text: 'Минимален стрес',           value: 'low_stress', deduction: 0, leadPoints: 5  }
     ]
   }
 ];
@@ -135,10 +135,10 @@ const onMarketTrack = [
     type: 'radio',
     scored: true,
     options: [
-      { text: '0 — не съм получил/а нито една', value: '0',   deduction: 0, leadPoints: 0  },
-      { text: '1–3',                           value: '1-3', deduction: 0, leadPoints: 10 },
-      { text: '4–10',                          value: '4-10',deduction: 0, leadPoints: 5  },
-      { text: '10+',                           value: '10+', deduction: 0, leadPoints: 0  }
+      { text: '0 — не съм получил/а нито една',  value: '0',   deduction: 0, leadPoints: 0  },
+      { text: '1–3',                             value: '1-3', deduction: 0, leadPoints: 10 },
+      { text: '4–10',                            value: '4-10',deduction: 0, leadPoints: 5  },
+      { text: '10+',                             value: '10+', deduction: 0, leadPoints: 0  }
     ]
   },
   {
@@ -147,9 +147,9 @@ const onMarketTrack = [
     type: 'radio',
     scored: true,
     options: [
-      { text: 'Не',          value: 'none', deduction: 0,  leadPoints: 0  },
-      { text: 'Да, няколко', value: 'some', deduction: 15, leadPoints: 25 },
-      { text: 'Да, много',   value: 'many', deduction: 20, leadPoints: 25 }
+      { text: 'Не',           value: 'none', deduction: 0,  leadPoints: 0  },
+      { text: 'Да, няколко',  value: 'some', deduction: 15, leadPoints: 25 },
+      { text: 'Да, много',    value: 'many', deduction: 20, leadPoints: 25 }
     ]
   },
   {
@@ -158,10 +158,10 @@ const onMarketTrack = [
     type: 'radio',
     scored: true,
     options: [
-      { text: 'Консултация с брокер',             value: 'broker',   deduction: 0,  leadPoints: 0  },
-      { text: 'На база подобни оферти на пазара', value: 'market',   deduction: 8,  leadPoints: 5  },
-      { text: 'Препоръка от близък',              value: 'friend',   deduction: 15, leadPoints: 20 },
-      { text: 'Лична нужда',                      value: 'personal', deduction: 15, leadPoints: 20 }
+      { text: 'Консултация с брокер',              value: 'broker',   deduction: 0,  leadPoints: 0  },
+      { text: 'На база подобни оферти на пазара',  value: 'market',   deduction: 8,  leadPoints: 5  },
+      { text: 'Препоръка от близък',               value: 'friend',   deduction: 15, leadPoints: 20 },
+      { text: 'Лична нужда',                       value: 'personal', deduction: 15, leadPoints: 20 }
     ]
   },
   {
@@ -170,10 +170,10 @@ const onMarketTrack = [
     type: 'radio',
     scored: false,
     options: [
-      { text: 'Не',                  value: 'none',       deduction: 0, leadPoints: 0  },
+      { text: 'Не',                   value: 'none',       deduction: 0, leadPoints: 0  },
       { text: 'Да, намалих цената',   value: 'price_cut',  deduction: 0, leadPoints: 10 },
-      { text: 'Да, смених снимките', value: 'new_photos', deduction: 0, leadPoints: 5  },
-      { text: 'Да, смених брокера',  value: 'new_broker', deduction: 0, leadPoints: 15 }
+      { text: 'Да, смених снимките',  value: 'new_photos', deduction: 0, leadPoints: 5  },
+      { text: 'Да, смених брокера',   value: 'new_broker', deduction: 0, leadPoints: 15 }
     ]
   }
 ];
@@ -187,10 +187,10 @@ const fearsQuestion = {
   maxSelect: 2,
   options: [
     { text: 'Не знам дали имотът е правилно оценен',                value: 'positioning',   leadPoints: 8,  exclusive: false },
-    { text: 'Имам нужда от бърза продажба',                         value: 'fast_no_offer', leadPoints: 10, exclusive: false },
+    { text: 'Притеснявам се от забавяне на продажбата',             value: 'urgency',       leadPoints: 10, urgencyBonus: 5, exclusive: false },
     { text: 'Притеснявам се от правни или документални проблеми',   value: 'legal',         leadPoints: 8,  exclusive: false },
     { text: 'Не знам дали да се доверя на брокер',                  value: 'trust_broker',  leadPoints: 6,  exclusive: false },
-    { text: 'Нищо не ме притеснява',                                value: 'no_concern',    leadPoints: 0,  exclusive: true, clientDeduction: 5 }
+    { text: 'Нищо не ме притеснява',                                value: 'no_concern',    leadPoints: 0,  exclusive: true, clientDeduction: 5, leadDeduction: 5 }
   ]
 };
 
@@ -258,15 +258,16 @@ function computeScores() {
     if (priority) { leadRaw += priority.leadPoints; }
   }
 
-  // Fears — lead quality + client deduction for no_concern
+  // Fears — lead quality + symetric deduction for no_concern
   const fears = state.answers['fears'] || [];
   fears.forEach(fv => {
     const opt = fearsQuestion.options.find(o => o.value === fv);
     if (opt) {
       leadRaw += opt.leadPoints;
+      if (opt.urgencyBonus) leadRaw += opt.urgencyBonus;
       if (opt.clientDeduction) deductions += opt.clientDeduction;
+      if (opt.leadDeduction)   leadRaw   -= opt.leadDeduction;
     }
-    if (fv === 'fast_sale') leadRaw += 5; // urgency multiplier
   });
 
   const clientScore = Math.max(20, Math.min(85, 85 - deductions));
