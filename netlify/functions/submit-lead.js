@@ -24,7 +24,7 @@ function sanitise(value, maxLength = 200) {
 
 // ── CORS headers ─────────────────────────────────────────────────────────────
 const CORS_HEADERS = {
-  'Access-Control-Allow-Origin':  'https://diaprisma.netlify.app/',
+  'Access-Control-Allow-Origin':  'https://diaprisma.netlify.app',
   'Access-Control-Allow-Methods': 'POST, OPTIONS',
   'Access-Control-Allow-Headers': 'Content-Type'
 };
