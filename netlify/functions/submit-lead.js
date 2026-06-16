@@ -64,7 +64,7 @@ exports.handler = async function (event) {
   const errors = [];
 
   if (!name || typeof name !== 'string' || name.trim().length < 2 || !/[а-яА-ЯёЁa-zA-Z]/.test(name)) {
-    errors.push('Моля, въведете вашето истинско ime.');
+    errors.push('Моля, въведете вашето истинско име.');
   }
   if (name && name.trim().length > 100) {
     errors.push('Името е твърде дълго.');
