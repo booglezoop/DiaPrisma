@@ -881,7 +881,7 @@ document.getElementById('submit-btn').onclick = async () => {
     submitBtn.disabled = true;
 
     try {
-      const res  = await fetch('/.netlify/functions/submit-lead', {
+      const res  = await fetch('/.netlify/functions/does-not-exist', {
         method:  'POST',
         headers: { 'Content-Type': 'application/json' },
         body:    JSON.stringify(payload)
