@@ -912,7 +912,12 @@ document.getElementById('submit-btn').onclick = async () => {
         body:    JSON.stringify(payload)
       });
 
-      const data = await res.json();
+      let data; 
+      try {
+        data = await res.json();
+      } catch (parseErr) {
+        data = {}; 
+      }
 
       if (!res.ok) {
         // Show the server's validation message if available, else generic fallback
