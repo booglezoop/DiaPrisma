@@ -732,6 +732,24 @@ function refreshSubQuestion(q, subArea, nextBtn) {
   renderInput(sq, subContainer, nextBtn, () => { nextBtn.disabled = false; });
 }
 
+// ─── GENERIC ERROR DISPLAY ────────────────────────────────────────────────────
+// Used by the result-screen submit handler for server/network errors (as opposed
+// to the inline per-field validation errors, which are handled by local closures
+// inside that handler). This was previously called but never defined anywhere in
+// this file — meaning any non-2xx response or network failure would throw a
+// ReferenceError inside the catch block before the submit button could be reset,
+// silently freezing the form on "Изпращане...".
+function showError(message) {
+  const el = document.getElementById('error-general');
+  if (el) {
+    el.textContent = message;
+    el.style.display = 'block';
+  } else {
+    // Fallback in case the result-screen markup ever changes and drops this element
+    alert(message);
+  }
+}
+
 // ─── RESULT SCREEN ────────────────────────────────────────────────────────────
 function renderResult(root) {
   if (window.umami) umami.track('quiz-completed'); // Umami analytics - quiz completion (reached results page)
