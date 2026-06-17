@@ -440,8 +440,8 @@ function buildSecondary(skipTier, track, omPrice, pmPrice, docs, fears, changes)
   }
 
   // Fears — in priority order, first match wins
-  if (fears.includes('fast_sale')) {
-    return 'Отбелязали сте нужда от бърза продажба - без ясен план времето работи срещу вас.';
+  if (fears.includes('urgency')) {
+    return 'Отбелязали сте притеснение от забавяне на продажбата - диагнозата по-горе показва точно къде в момента се губи време.';
   }
   if (fears.includes('positioning')) {
     return 'Отбелязали сте несигурност относно ценовото позициониране - диагнозата потвърждава че тази интуиция заслужава внимание.';
