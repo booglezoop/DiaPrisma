@@ -134,11 +134,16 @@ const onMarketTrack = [
     text: 'Колко оферти сте получили?',
     type: 'radio',
     scored: true,
+    // NOTE: leadPoints below are NOT read by computeScores(). Actual lead points for
+    // this answer are derived combinatorially with om_viewings (see computeScores()'s
+    // "0 offers AND no viewings" / "0 offers" branches). Left here as a record of the
+    // originally-intended per-option values, not as live scoring config — don't assume
+    // changing these numbers will change the score.
     options: [
-      { text: '0 — не съм получил/а нито една',  value: '0',   deduction: 0, leadPoints: 0  },
-      { text: '1–3',                             value: '1-3', deduction: 0, leadPoints: 10 },
-      { text: '4–10',                            value: '4-10',deduction: 0, leadPoints: 5  },
-      { text: '10+',                             value: '10+', deduction: 0, leadPoints: 0  }
+      { text: '0 — не съм получил/а нито една',  value: '0',},    // deduction: 0, leadPoints: 0  },
+      { text: '1–3',                             value: '1-3'},   // deduction: 0, leadPoints: 10 },
+      { text: '4–10',                            value: '4-10'},  // deduction: 0, leadPoints: 5  },
+      { text: '10+',                             value: '10+'}    // deduction: 0, leadPoints: 0  }
     ]
   },
   {
