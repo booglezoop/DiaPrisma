@@ -565,11 +565,27 @@ function renderStep(root, steps) {
   }
 
   nextBtn.onclick = () => {
-    // Umami analytics - Each step completion (step number and question ID tracking drop-off)
-    if (window.umami) umami.track('quiz-step-completed', {  
-    step: state.currentStep + 1,
-    question: q.id
-    });
+    if (window.umami) {
+      const currentAnswer = state.answers[q.id];
+      let answerValue;
+
+      if (q.type === 'radio')        answerValue = currentAnswer?.value || '';
+      else if (q.type === 'dropdown') answerValue = currentAnswer || '';
+      else if (q.type === 'multiselect') answerValue = Array.isArray(currentAnswer) ? currentAnswer.join(', ') : '';
+      else if (q.type === 'text') {
+        // Free-text fields (neighborhood, area) — record completion only,
+        // never the raw user-entered string, to avoid pushing
+        // identifiable text into a third-party analytics tool.
+        answerValue = currentAnswer ? 'filled' : 'empty';
+      }
+
+      umami.track('Quiz_Step_Completed', {
+        step: state.currentStep + 1,
+        question_id: q.id,
+        answer: answerValue,
+        current_track: state.track || 'shared'
+      });
+    }
     // drop-off
     const inp = mainArea.querySelector('input.field-input');
     if (inp && q.type === 'text') state.answers[q.id] = inp.value.trim();
