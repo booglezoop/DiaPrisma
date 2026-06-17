@@ -233,8 +233,8 @@ function computeScores() {
 
     // Viewings with no offers → price/presentation problem
     if (viewings && (viewings.value === 'some' || viewings.value === 'many')) {
-      deductions += 20;
-      leadRaw    += 25;
+      deductions += viewings.deduction;
+      leadRaw    += viewings.leadPoints;
     }
 
     // 0 offers AND no viewings → invisible listing (marketing problem)
