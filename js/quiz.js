@@ -530,9 +530,7 @@ function renderStep(root, steps) {
     <div id="main-area"></div>
     <div id="sub-area"></div>
     <div class="nav-row">
-  ${state.currentStep > 0
-    ? `<button class="back-btn" id="back-btn">← Назад</button>`
-      : `<button class="back-btn" id="back-btn">← Назад</button>`}
+  <button class="back-btn" id="back-btn">← Назад</button>
   <button class="next-btn" id="next-btn" disabled>
     ${isLast ? 'Вижте резултата →' : 'Следващ въпрос →'}
   </button>
