@@ -864,6 +864,7 @@ document.getElementById('submit-btn').onclick = async () => {
 
     if (hasError) return;
     if (state.submitted) return;
+    clearFieldError('error-general');
     if (window.umami) umami.track('form-submitted'); // Umami analytics - contact form submitted (primary conversion event)
     state.submitted = true;
 
