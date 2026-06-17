@@ -802,6 +802,7 @@ function renderResult(root) {
       </div>
       <p class="privacy-notice">Данните ви се използват само за връзка с вас. <a href="privacy.html" target="_blank" rel="noopener">Научете повече</a>.</p>
       <button class="submit-btn" id="submit-btn">Изпратете →</button>
+      <div class="form-error" id="error-general" style="display:none"></div>
       <div class="thankyou-msg" id="ty-msg" style="display:none">Получихме вашата заявка. Очаквайте обаждане в рамките на 48 часа. </div>
     </div>
 
