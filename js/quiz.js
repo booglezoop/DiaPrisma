@@ -565,7 +565,10 @@ function renderStep(root, steps) {
   }
 
   nextBtn.onclick = () => {
-    if (window.umami) {
+    // q.isBranch is excluded here because Quiz_Branch_Selected already fires
+    // for this exact click (inside renderInput's onChange) — without this guard
+    // every branch-step Next click would log twice under different event names.
+    if (window.umami && !q.isBranch) {
       const currentAnswer = state.answers[q.id];
       let answerValue;
 
@@ -573,21 +576,20 @@ function renderStep(root, steps) {
       else if (q.type === 'dropdown') answerValue = currentAnswer || '';
       else if (q.type === 'multiselect') answerValue = Array.isArray(currentAnswer) ? currentAnswer.join(', ') : '';
       else if (q.type === 'text') {
-        // Free-text fields (neighborhood, area) — record completion only,
-        // never the raw user-entered string, to avoid pushing
-        // identifiable text into a third-party analytics tool.
         answerValue = currentAnswer ? 'filled' : 'empty';
       }
 
-      umami.track('Quiz_Step_Completed', {
+      // Event name carries the question id directly (e.g. Quiz_Step_pm_timeline,
+      // Quiz_Step_om_offers) rather than a shared name + property — Umami funnel
+      // steps can only match on event name, not on property values.
+      umami.track(`Quiz_Step_${q.id}`, {
         step: state.currentStep + 1,
-        question_id: q.id,
         answer: answerValue,
         current_track: state.track || 'shared'
       });
     }
     // drop-off
-    const inp = mainArea.querySelector('input.field-input');
+    const inp = mainArea.querySelector('input.field-input');;
     if (inp && q.type === 'text') state.answers[q.id] = inp.value.trim();
     state.currentStep++;
     const updatedSteps = getSteps();
