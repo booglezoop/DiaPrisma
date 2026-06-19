@@ -173,7 +173,7 @@ body { margin: 0; padding: 0; background: var(--slate); }
 }
 
 .lp-score-preview::before {
-  content: 'Пример за резултат';
+  content: 'Примерен резултат';
   position: absolute;
   top: 8px;
   left: 50%;
