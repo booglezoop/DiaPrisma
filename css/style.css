@@ -237,7 +237,7 @@ body { margin: 0; padding: 0; background: var(--slate); }
 }
 
 .lp-score-risk-body {
-  font-family: 'DM Mono', monospace;
+  font-family: 'Space Grotesk', sans-serif;
   font-size: 10px;
   color: var(--white-dim);
   line-height: 1.5;
@@ -691,7 +691,7 @@ body { margin: 0; padding: 0; background: var(--slate); }
 .field-row { display: flex; flex-direction: column; gap: 10px; margin-bottom: 12px; }
 
 .privacy-notice {
-  font-family: 'DM Mono', monospace;
+  font-family: 'Space Grotesk', sans-serif;
   font-size: 10px;
   letter-spacing: 0.04em;
   color: var(--white-dim);
@@ -726,7 +726,7 @@ body { margin: 0; padding: 0; background: var(--slate); }
 .submit-btn:disabled { opacity: 0.32; cursor: not-allowed; }
 
 .form-error {
-  font-family: 'DM Mono', monospace;
+  font-family: 'Space Grotesk', sans-serif;
   font-size: 10px;
   letter-spacing: 0.04em;
   color: #E06060;
@@ -751,7 +751,7 @@ body { margin: 0; padding: 0; background: var(--slate); }
 .restart-link {
   display: inline-block;
   margin-top: 1rem;
-  font-family: 'DM Mono', monospace;
+  font-family: 'Space Grotesk', sans-serif;
   font-size: 10px;
   letter-spacing: 0.08em;
   color: var(--white-dim);
