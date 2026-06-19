@@ -5,42 +5,44 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Политика за поверителност — Диагностика при продажба на имоти</title>
   <link rel="stylesheet" href="css/style.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
   <style>
     body {
-      font-family: 'DM Sans', sans-serif;
-      background: #FFFFFF;
-      color: #111110;
+      font-family: 'Space Grotesk', sans-serif;
+      background: var(--slate);
+      color: var(--white);
       margin: 0;
       padding: 0;
     }
 
     .pp-nav {
       padding: 1rem 2.5rem;
-      border-bottom: 0.5px solid rgba(0,0,0,0.07);
+      border-bottom: 1px solid var(--bronze-line);
       display: flex;
       align-items: center;
       justify-content: space-between;
+      background: var(--slate-mid);
     }
 
-    .pp-logo {
-      height: clamp(50px, 8vw, 90px);
-      width: auto;
-      object-fit: contain;
+    .pp-nav-name {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.85rem;
+      font-weight: 400;
+      color: var(--bronze-light);
+      letter-spacing: 0.08em;
     }
 
     .pp-back-link {
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 0.82rem;
-      color: #C0272D;
+      color: var(--bronze);
       text-decoration: none;
       display: flex;
       align-items: center;
       gap: 6px;
-      transition: opacity 0.2s;
+      transition: color 0.2s;
     }
 
-    .pp-back-link:hover { opacity: 0.7; }
+    .pp-back-link:hover { color: var(--bronze-light); }
 
     .pp-wrap {
       max-width: 720px;
@@ -49,47 +51,53 @@
     }
 
     .pp-eyebrow {
-      font-size: 11px;
-      font-weight: 500;
-      letter-spacing: 0.12em;
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      font-weight: 400;
+      letter-spacing: 0.14em;
       text-transform: uppercase;
-      color: #C0272D;
+      color: var(--bronze);
       margin-bottom: 1rem;
     }
 
     .pp-title {
-      font-family: 'Playfair Display', serif;
+      font-family: 'Fraunces', serif;
+      font-optical-sizing: auto;
       font-size: clamp(1.8rem, 4vw, 2.6rem);
-      font-weight: 500;
-      color: #1E3A8A;
+      font-weight: 400;
+      color: var(--white);
       line-height: 1.2;
       margin: 0 0 0.75rem;
     }
 
     .pp-meta {
-      font-size: 0.82rem;
-      color: #9CA3AF;
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.06em;
+      color: var(--white-dim);
       margin-bottom: 3rem;
       padding-bottom: 2rem;
-      border-bottom: 0.5px solid rgba(0,0,0,0.08);
+      border-bottom: 1px solid var(--bronze-line);
     }
 
     .pp-section { margin-bottom: 2.5rem; }
 
     .pp-section-title {
-      font-family: 'Playfair Display', serif;
+      font-family: 'Fraunces', serif;
+      font-optical-sizing: auto;
       font-size: 1.15rem;
-      font-weight: 500;
-      color: #1E3A8A;
+      font-weight: 400;
+      color: var(--white);
       margin: 0 0 0.9rem;
       padding-bottom: 0.5rem;
-      border-bottom: 0.5px solid rgba(192,39,45,0.15);
+      border-bottom: 1px solid var(--bronze-line);
     }
 
     .pp-section p {
-      font-size: 0.92rem;
+      font-size: 0.9rem;
+      font-weight: 300;
       line-height: 1.8;
-      color: #374151;
+      color: var(--white-dim);
       margin: 0 0 0.9rem;
     }
 
@@ -101,85 +109,75 @@
     }
 
     .pp-section ul li {
-      font-size: 0.92rem;
+      font-size: 0.9rem;
+      font-weight: 300;
       line-height: 1.8;
-      color: #374151;
+      color: var(--white-dim);
       margin-bottom: 0.35rem;
     }
 
+    .pp-section strong { color: var(--white); font-weight: 500; }
+
     .pp-highlight {
-      background: rgba(192,39,45,0.04);
-      border: 0.5px solid rgba(192,39,45,0.2);
-      border-radius: 10px;
+      background: var(--bronze-dim);
+      border: 1px solid var(--bronze-line);
+      border-left: 2px solid var(--bronze);
+      border-radius: 0 3px 3px 0;
       padding: 1.1rem 1.25rem;
       margin-bottom: 0.9rem;
     }
 
-    .pp-highlight p { margin: 0; font-size: 0.92rem; line-height: 1.8; color: #374151; }
+    .pp-highlight p { margin: 0; font-size: 0.88rem; font-weight: 300; line-height: 1.8; color: var(--white-dim); }
 
-    .pp-highlight a { color: #C0272D; text-decoration: none; }
-    .pp-highlight a:hover { text-decoration: underline; }
+    .pp-highlight a { color: var(--bronze-light); text-decoration: none; }
+    .pp-highlight a:hover { color: var(--white); }
 
     .pp-data-table {
       width: 100%;
       border-collapse: collapse;
-      font-size: 0.88rem;
+      font-size: 0.85rem;
       margin-bottom: 0.9rem;
     }
 
     .pp-data-table th {
       text-align: left;
-      font-size: 10px;
-      letter-spacing: 0.1em;
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
-      color: #C0272D;
-      font-weight: 500;
+      color: var(--bronze);
+      font-weight: 400;
       padding: 0.5rem 0.75rem;
-      border-bottom: 0.5px solid rgba(192,39,45,0.2);
+      border-bottom: 1px solid var(--bronze-line);
     }
 
     .pp-data-table td {
       padding: 0.7rem 0.75rem;
-      color: #374151;
+      color: var(--white-dim);
+      font-weight: 300;
       line-height: 1.6;
-      border-bottom: 0.5px solid rgba(0,0,0,0.06);
+      border-bottom: 1px solid var(--white-faint);
       vertical-align: top;
     }
 
     .pp-data-table tr:last-child td { border-bottom: none; }
 
     .pp-contact-box {
-      background: #F9F8F6;
-      border: 0.5px solid rgba(0,0,0,0.08);
-      border-radius: 12px;
+      background: var(--white-faint);
+      border: 1px solid var(--bronze-line);
+      border-radius: 3px;
       padding: 1.5rem;
     }
 
-    .pp-contact-box p {
-      margin: 0 0 0.4rem;
-    }
+    .pp-contact-box p { margin: 0 0 0.4rem; color: var(--white-dim); font-weight: 300; }
 
-    .pp-contact-box a { color: #C0272D; text-decoration: none; }
-    .pp-contact-box a:hover { text-decoration: underline; }
-
-    .lp-footer {
-      padding: 1.25rem 2.5rem;
-      border-top: 0.5px solid rgba(0,0,0,0.07);
-      font-size: 0.75rem;
-      color: #9CA3AF;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      font-family: 'DM Sans', sans-serif;
-    }
-
-    .lp-meta-sep { opacity: 0.5; }
+    .pp-contact-box a { color: var(--bronze); text-decoration: none; }
+    .pp-contact-box a:hover { color: var(--bronze-light); }
 
     @media (max-width: 600px) {
       .pp-wrap { padding: 2.5rem 1.5rem 4rem; }
       .pp-nav  { padding: 1rem 1.5rem; }
-      .pp-data-table { font-size: 0.82rem; }
+      .pp-data-table { font-size: 0.8rem; }
       .pp-data-table th, .pp-data-table td { padding: 0.55rem 0.5rem; }
     }
   </style>
