@@ -148,7 +148,11 @@ const onMarketTrack = [
   },
   {
     id: 'om_viewings',
-    text: 'Имали ли сте огледи без последваща оферта?',
+    get text() {
+      return state.answers['om_offers']?.value === '0'
+        ? 'Имали ли сте изобщо огледи на имота?'
+        : 'Имали ли сте огледи без последваща оферта?';
+    },
     type: 'radio',
     scored: true,
     options: [
