@@ -137,12 +137,12 @@ const onMarketTrack = [
     // NOTE: leadPoints below are NOT read by computeScores(). Actual lead points for
     // this answer are derived combinatorially with om_viewings (see computeScores()'s
     // "0 offers AND no viewings" / "0 offers" branches). Left here as a record of the
-    // originally-intended per-option values, not as live scoring config — don't assume
+    // originally-intended per-option values, not as live scoring config - don't assume
     // changing these numbers will change the score.
     options: [
-      { text: '0 — не съм получил/а нито една',  value: '0',},    // deduction: 0, leadPoints: 0  },
-      { text: '1–3',                             value: '1-3'},   // deduction: 0, leadPoints: 10 },
-      { text: '4–10',                            value: '4-10'},  // deduction: 0, leadPoints: 5  },
+      { text: '0 - не съм получил/а нито една',  value: '0',},    // deduction: 0, leadPoints: 0  },
+      { text: '1-3',                             value: '1-3'},   // deduction: 0, leadPoints: 10 },
+      { text: '4-10',                            value: '4-10'},  // deduction: 0, leadPoints: 5  },
       { text: '10+',                             value: '10+'}    // deduction: 0, leadPoints: 0  }
     ]
   },
@@ -246,7 +246,7 @@ function computeScores() {
       deductions += 25;
       leadRaw    += 35;
     } else if (offers && offers.value === '0') {
-      leadRaw += 10; // had some viewings — viewings block already fired
+      leadRaw += 10; // had some viewings - viewings block already fired
     }
 
     if (price)   { deductions += price.deduction;   leadRaw += price.leadPoints;   }
@@ -267,7 +267,7 @@ function computeScores() {
     if (priority) { leadRaw += priority.leadPoints; }
   }
 
-  // Fears — lead quality + symetric deduction for no_concern
+  // Fears - lead quality + symetric deduction for no_concern
   const fears = state.answers['fears'] || [];
   fears.forEach(fv => {
     const opt = fearsQuestion.options.find(o => o.value === fv);
@@ -299,7 +299,7 @@ function getPrimaryRisk() {
 
   const mispricedValues = ['personal', 'friend', 'none'];
 
-  // Tier 1 — Market rejection
+  // Tier 1 - Market rejection
   if (track === 'on' && viewings && (viewings.value === 'some' || viewings.value === 'many')) {
 
     const manyViewings    = viewings.value === 'many';
@@ -313,28 +313,28 @@ function getPrimaryRisk() {
     let body;
 
     if (hasOffers && pricedByBroker) {
-      // Got offers, priced by broker — something breaking at negotiation stage
+      // Got offers, priced by broker - something breaking at negotiation stage
       body = 'Получили сте оферти, което означава че имотът привлича сериозен интерес. Проблемът е на финалната крачка - нещо в преговорния процес или в начина на представяне на имота спира купувачите да потвърдят решението си.';
     } else if (hasOffers && pricedPoorly) {
-      // Got offers but priced poorly — offers likely too low, seller probably rejected them
+      // Got offers but priced poorly - offers likely too low, seller probably rejected them
       body = 'Получили сте оферти, но цена, определена по лична преценка или препоръка, често води до пропаст между очакванията на продавача и това което купувачът е готов да плати. Офертите идват, но не на нивото, което сте очаквали.';
     } else if (pricedByBroker && manyViewings) {
-      // Priced by broker, many viewings — presentation problem not price
+      // Priced by broker, many viewings - presentation problem not price
       body = 'Цената е определена професионално, което означава че проблемът е най-вероятно в презентацията - снимки, описание, или как имотът се представя по време на оглед. Купувачите идват с интерес, но нещо ги спира на място.';
     } else if (pricedPoorly && manyViewings) {
-      // Personal/friend pricing + many viewings — price almost certainly the issue
+      // Personal/friend pricing + many viewings - price almost certainly the issue
       body = 'Много огледи без оферта е почти сигурен сигнал за ценова грешка. Купувачите идват, сравняват с алтернативите, и решават че не си заслужава. Цена, определена по лична преценка или препоръка, рядко съвпада с това което пазарът е готов да плати.';
     } else if (cutPrice) {
-      // Already cut price — acknowledge, but signal it may not be enough
+      // Already cut price - acknowledge, but signal it may not be enough
       body = 'Намалението на цената е стъпка в правилната посока, но огледите без оферта показват че разликата все още не е достатъчна - или че има друг фактор, който спира купувачите на последната крачка.';
     } else if (changedBroker) {
       // Changed broker - acknowledge effort, point to a structual problem of the offer
       body = 'Смяната на брокера показва че вече сте потърсили професионална помощ - но огледите без оферта сочат че проблемът е по-дълбок от изпълнението. Най-вероятно е структурен - ценово позициониране или начинът, по който имотът се представя физически.';
     } else if (triedSomething) {
-      // Made other changes — acknowledge effort, redirect
+      // Made other changes - acknowledge effort, redirect
       body = 'Промените по обявата показват че вече сте осъзнали проблема. Огледите без оферта обаче сочат към нещо по-дълбоко - най-вероятно ценово позициониране или начина, по който имотът се представя физически.';
     }  else {
-      // Generic — no changes made, unclear price basis
+      // Generic - no changes made, unclear price basis
       body = 'Купувачите идват, виждат, и решават че не си заслужава. Това е класически сигнал за проблем с цената или начина, по който имотът се представя - и без корекция тази динамика ще продължи.';
     }
 
@@ -350,7 +350,7 @@ function getPrimaryRisk() {
     };
   }
 
-  // Tier 2 — Invisible listing
+  // Tier 2 - Invisible listing
   if (track === 'on' && offers && offers.value === '0' && viewings && viewings.value === 'none') {
     const pricedPoorly   = omPrice && ['personal', 'friend'].includes(omPrice.value);
     const pricedByBroker = omPrice && omPrice.value === 'broker';
@@ -358,10 +358,10 @@ function getPrimaryRisk() {
     let body;
 
     if (pricedByBroker) {
-      // Priced by broker, zero visibility — pure marketing/positioning problem
+      // Priced by broker, zero visibility - pure marketing/positioning problem
       body = 'Цената е определена професионално, което изключва ценовата грешка като основна причина. Проблемът е в това как и къде обявата достига до купувачите - имотът не е видим там, където активните купувачи търсят.';
     } else if (pricedPoorly) {
-      // Personal pricing + zero visibility — both price and marketing problem
+      // Personal pricing + zero visibility - both price and marketing problem
       body = 'Нулеви огледи при цена, определена по лична преценка, сочи към два едновременни проблема - обявата не достига до правилните купувачи, и дори да достигне, цената може да я изключи от търсенето им. Маркетингът и ценовото позициониране трябва да се адресират заедно.';
     } else {
       body = 'Нулеви огледи означава проблем с позиционирането или маркетинга - имотът не е видим там, където търсят активните купувачи. Това не е проблем на имота, а на стратегията.';
@@ -375,7 +375,7 @@ function getPrimaryRisk() {
     };
   }
 
-  // Tier 3 — Mispricing
+  // Tier 3 - Mispricing
   const activePriceAnswer = omPrice || pmPrice;
   if (activePriceAnswer && mispricedValues.includes(activePriceAnswer.value)) {
     const cutPrice = changes && changes.value === 'price_cut';
@@ -400,7 +400,7 @@ function getPrimaryRisk() {
     };
   }
 
-  // Tier 4a — Documentation risk (pre-market only)
+  // Tier 4a - Documentation risk (pre-market only)
   if (track === 'pre' && docs && docs.value !== 'ready') {
     return {
       title: 'Документацията крие потенциални рискове',
@@ -410,7 +410,7 @@ function getPrimaryRisk() {
     };
   }
 
-  // Tier 4b — On-market with market-based pricing but still no traction
+  // Tier 4b - On-market with market-based pricing but still no traction
   if (track === 'on' && omPrice && omPrice.value === 'market') {
     return {
       title: 'Цената изглежда пазарна, но имотът не се движи',
@@ -420,7 +420,7 @@ function getPrimaryRisk() {
     };
   }
 
-  // Tier 5 — Strategic unpreparedness
+  // Tier 5 - Strategic unpreparedness
   return {
     title: 'Имотът ви има потенциал - но планът липсва',
     agentTitle: 'Без стратегия за продажба',
@@ -433,15 +433,15 @@ function buildSecondary(skipTier, track, omPrice, pmPrice, docs, fears, changes)
   const mispricedValues   = ['personal', 'friend', 'none'];
   const activePriceAnswer = omPrice || pmPrice;
 
-  // Mispricing secondary — skip if already the primary diagnosis
+  // Mispricing secondary - skip if already the primary diagnosis
   if (skipTier !== 3 && skipTier !== 1 && activePriceAnswer && mispricedValues.includes(activePriceAnswer.value)) 
 
-  // Documentation secondary — pre-market only, skip if already primary
+  // Documentation secondary - pre-market only, skip if already primary
   if (skipTier !== 4 && track === 'pre' && docs && docs.value !== 'ready') {
     return 'Освен това не сте проверили документацията - това е втората най-честа причина за забавени или пропаднали сделки.';
   }
 
-  // Fears — in priority order, first match wins
+  // Fears - in priority order, first match wins
   if (fears.includes('urgency')) {
     return 'Отбелязали сте притеснение от забавяне на продажбата - диагнозата по-горе показва точно къде в момента се губи време.';
   }
@@ -545,7 +545,7 @@ function renderStep(root, steps) {
   const nextBtn  = document.getElementById('next-btn');
 
   // If returning to the branch question with an existing answer, set track immediately
-  // before renderInput fires — this ensures getSteps() returns the correct length
+  // before renderInput fires - this ensures getSteps() returns the correct length
   // for the Next button label evaluation
   if (q.isBranch && state.answers['listed']) {
     state.track = state.answers['listed'].value === 'yes' ? 'on' : 'pre';
@@ -568,7 +568,7 @@ function renderStep(root, steps) {
 
   nextBtn.onclick = () => {
     // q.isBranch is excluded here because Quiz_Branch_Selected already fires
-    // for this exact click (inside renderInput's onChange) — without this guard
+    // for this exact click (inside renderInput's onChange) - without this guard
     // every branch-step Next click would log twice under different event names.
     if (window.umami && !q.isBranch) {
       const currentAnswer = state.answers[q.id];
@@ -582,7 +582,7 @@ function renderStep(root, steps) {
       }
 
       // Event name carries the question id directly (e.g. Quiz_Step_pm_timeline,
-      // Quiz_Step_om_offers) rather than a shared name + property — Umami funnel
+      // Quiz_Step_om_offers) rather than a shared name + property - Umami funnel
       // steps can only match on event name, not on property values.
       umami.track(`Quiz_Step_${q.id}`, {
         step: state.currentStep + 1,
@@ -756,7 +756,7 @@ function refreshSubQuestion(q, subArea, nextBtn) {
 // Used by the result-screen submit handler for server/network errors (as opposed
 // to the inline per-field validation errors, which are handled by local closures
 // inside that handler). This was previously called but never defined anywhere in
-// this file — meaning any non-2xx response or network failure would throw a
+// this file - meaning any non-2xx response or network failure would throw a
 // ReferenceError inside the catch block before the submit button could be reset,
 // silently freezing the form on "Изпращане...".
 function showError(message) {
@@ -812,7 +812,7 @@ function renderResult(root) {
 
     <div class="contact-box">
       <div class="contact-box-title">Отговаря ли диагнозата на реалността ви?</div>
-      <div class="contact-box-sub">Ако искате да разберете какво може да се направи конкретно за вашия имот — оставете телефона си. Специалист ще се свърже с вас в рамките на 48 часа.</div>
+      <div class="contact-box-sub">Ако искате да разберете какво може да се направи конкретно за вашия имот - оставете телефона си. Специалист ще се свърже с вас в рамките на 48 часа.</div>
       <div class="field-row">
         <input class="field-input" type="text" placeholder="Вашето име" id="inp-name"/>
         <div class="form-error" id="error-name" style="display:none"></div>
@@ -961,7 +961,7 @@ document.getElementById('submit-btn').onclick = async () => {
       });
 
     } catch (e) {
-      // Network failure — offline, timeout, etc.
+      // Network failure - offline, timeout, etc.
       console.warn('Submission error:', e);
       showError('Няма връзка. Проверете интернет и опитайте отново.');
       submitBtn.textContent = 'Изпратете →';
