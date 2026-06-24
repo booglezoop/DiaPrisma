@@ -138,6 +138,7 @@ exports.handler = async function (event) {
     name:               sanitise(name, 100),
     phone:              phoneClean,
     email:              sanitise(email || '', 200),
+    note:               sanitise(payload.note || '', 1000),
     track:              sanitise(payload.track, 10),
     client_score:       Number(payload.client_score) || 0,
     client_tier:        sanitise(payload.client_tier, 50),
