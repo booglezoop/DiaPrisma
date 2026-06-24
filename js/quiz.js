@@ -170,7 +170,7 @@ const onMarketTrack = [
       { text: 'Консултация с брокер',              value: 'broker',   deduction: 0,  leadPoints: 0  },
       { text: 'На база подобни оферти на пазара',  value: 'market',   deduction: 8,  leadPoints: 5  },
       { text: 'Препоръка от близък',               value: 'friend',   deduction: 15, leadPoints: 20 },
-      { text: 'Лична нужда',                       value: 'personal', deduction: 15, leadPoints: 20 }
+      { text: 'По лична преценка',                       value: 'personal', deduction: 15, leadPoints: 20 }
     ]
   },
   {
