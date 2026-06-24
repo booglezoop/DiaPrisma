@@ -821,6 +821,7 @@ function renderResult(root) {
         <input class="field-input" type="tel" placeholder="Телефон" id="inp-phone" inputmode="numeric" maxlength="15" pattern="[0-9+\\s\\-]{7,15}"/>
         <div class="form-error" id="error-phone" style="display:none"></div>
         <input class="field-input" type="email" placeholder="Имейл (по желание)" id="inp-email"/>
+        <textarea class="field-input" id="inp-note" placeholder="Какво бихте искали да обсъдите с агент по време на безплатната консултация? (по желание)" rows="3"></textarea>
       </div>
       <p class="privacy-notice">Данните ви се използват само за връзка с вас. <a href="privacy.html" target="_blank" rel="noopener">Научете повече</a>.</p>
       <button class="submit-btn" id="submit-btn">Изпратете →</button>
@@ -851,6 +852,7 @@ document.getElementById('submit-btn').onclick = async () => {
     const name  = document.getElementById('inp-name').value.trim();
     const phone = document.getElementById('inp-phone').value.trim();
     const email = document.getElementById('inp-email').value.trim();
+    const note = document.getElementById('inp-note').value.trim();
     const phoneClean = phone.replace(/[\s\-]/g, '');
     const phoneValid = /^\+?[0-9]{7,15}$/.test(phoneClean);
 
@@ -892,6 +894,7 @@ document.getElementById('submit-btn').onclick = async () => {
 
     const payload = {
       name, phone, email,
+      note:               document.getElementById('inp-note').value.trim(),
       track:              state.track,
       client_score:       clientScore,
       client_tier:        clientTier,
@@ -955,7 +958,7 @@ document.getElementById('submit-btn').onclick = async () => {
       submitBtn.style.display = 'none';
       if (window.umami) umami.track('form-success'); // Umami analytics - Contact form success (server confirmed the submission) 
       tyMsg.style.display = 'block';
-      ['inp-name','inp-phone','inp-email'].forEach(id => {
+      ['inp-name','inp-phone','inp-email','inp-note'].forEach(id => {
         document.getElementById(id).disabled = true;
       });
 
