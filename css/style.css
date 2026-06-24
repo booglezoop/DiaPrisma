@@ -701,6 +701,11 @@ body { margin: 0; padding: 0; background: var(--slate); }
 
 .field-row { display: flex; flex-direction: column; gap: 10px; margin-bottom: 12px; }
 
+.field-input[id="inp-note"] {
+  resize: vertical;
+  min-height: 80px;
+}
+
 .privacy-notice {
   font-family: 'Space Grotesk', sans-serif;
   font-size: 10px;
