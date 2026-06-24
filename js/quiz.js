@@ -434,9 +434,7 @@ function buildSecondary(skipTier, track, omPrice, pmPrice, docs, fears, changes)
   const activePriceAnswer = omPrice || pmPrice;
 
   // Mispricing secondary — skip if already the primary diagnosis
-  if (skipTier !== 3 && activePriceAnswer && mispricedValues.includes(activePriceAnswer.value)) {
-    return 'Освен това начинът, по който е определена цената, носи допълнителен риск от неправилно ценово позициониране.';
-  }
+  if (skipTier !== 3 && skipTier !== 1 && activePriceAnswer && mispricedValues.includes(activePriceAnswer.value)) 
 
   // Documentation secondary — pre-market only, skip if already primary
   if (skipTier !== 4 && track === 'pre' && docs && docs.value !== 'ready') {
