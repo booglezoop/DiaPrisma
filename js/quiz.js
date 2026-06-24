@@ -170,7 +170,7 @@ const onMarketTrack = [
       { text: 'Консултация с брокер',              value: 'broker',   deduction: 0,  leadPoints: 0  },
       { text: 'На база подобни оферти на пазара',  value: 'market',   deduction: 8,  leadPoints: 5  },
       { text: 'Препоръка от близък',               value: 'friend',   deduction: 15, leadPoints: 20 },
-      { text: 'По лична преценка',                       value: 'personal', deduction: 15, leadPoints: 20 }
+      { text: 'По лична преценка',                 value: 'personal', deduction: 15, leadPoints: 20 }
     ]
   },
   {
@@ -302,13 +302,13 @@ function getPrimaryRisk() {
   // Tier 1 — Market rejection
   if (track === 'on' && viewings && (viewings.value === 'some' || viewings.value === 'many')) {
 
-    const manyViewings  = viewings.value === 'many';
-    const pricedPoorly  = omPrice && ['personal', 'friend'].includes(omPrice.value);
-    const pricedByBroker = omPrice && omPrice.value === 'broker';
-    const cutPrice      = changes && changes.value === 'price_cut';
-    const triedSomething = changes && changes.value !== 'none';
-    const changedBroker = changes && changes.value === 'new_broker';
-    const hasOffers     = offers && offers.value !== '0';
+    const manyViewings    = viewings.value === 'many';
+    const pricedPoorly    = omPrice && ['personal', 'friend'].includes(omPrice.value);
+    const pricedByBroker  = omPrice && omPrice.value === 'broker';
+    const cutPrice        = changes && changes.value === 'price_cut';
+    const triedSomething  = changes && changes.value !== 'none';
+    const changedBroker   = changes && changes.value === 'new_broker';
+    const hasOffers       = offers && offers.value !== '0';
 
     let body;
 
@@ -576,7 +576,7 @@ function renderStep(root, steps) {
       const currentAnswer = state.answers[q.id];
       let answerValue;
 
-      if (q.type === 'radio')        answerValue = currentAnswer?.value || '';
+      if      (q.type === 'radio')        answerValue = currentAnswer?.value || '';
       else if (q.type === 'dropdown') answerValue = currentAnswer || '';
       else if (q.type === 'multiselect') answerValue = Array.isArray(currentAnswer) ? currentAnswer.join(', ') : '';
       else if (q.type === 'text') {
@@ -849,10 +849,10 @@ function renderResult(root) {
 
   // Submit
 document.getElementById('submit-btn').onclick = async () => {
-    const name  = document.getElementById('inp-name').value.trim();
-    const phone = document.getElementById('inp-phone').value.trim();
-    const email = document.getElementById('inp-email').value.trim();
-    const note = document.getElementById('inp-note').value.trim();
+    const name       = document.getElementById('inp-name').value.trim();
+    const phone      = document.getElementById('inp-phone').value.trim();
+    const email      = document.getElementById('inp-email').value.trim();
+    const note       = document.getElementById('inp-note').value.trim();
     const phoneClean = phone.replace(/[\s\-]/g, '');
     const phoneValid = /^\+?[0-9]{7,15}$/.test(phoneClean);
 
