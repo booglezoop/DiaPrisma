@@ -1,0 +1,255 @@
+{
+  "name": "Lead Reconciliation",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours",
+              "hoursInterval": 4
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        256,
+        336
+      ],
+      "id": "584ba42e-86ab-446a-beed-64bbc4ff3ef1",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "url": "=https://tkzgggyebjiubqldpywi.supabase.co/rest/v1/leads?select=*&lead_tier=in.(hot,warm)&notified_at=is.null&created_at=lt.{{ $now.minus({minutes:15}).toISO() }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "supabaseApi",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        480,
+        336
+      ],
+      "id": "dbee7621-0a55-41ea-abfd-59ac848c8d6e",
+      "name": "Fetch Missed Leads",
+      "credentials": {
+        "supabaseApi": {
+          "id": "Fp5nFO7aSmJ6nR4w",
+          "name": "Supabase account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "destinationFieldName": "leads",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        704,
+        336
+      ],
+      "id": "6c174ddc-07d7-4d3b-a0aa-6bc136017948",
+      "name": "Aggregate"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "recon-cond-01",
+              "leftValue": "={{ $json.leads.length }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        928,
+        336
+      ],
+      "id": "de92b4de-16d7-4eeb-a84f-db579956a6c8",
+      "name": "Any missed leads?"
+    },
+    {
+      "parameters": {
+        "jsCode": "const leads = $input.first().json.leads;\n\nconst tierLabel = t => t === 'hot' ? '🔴 HOT' : '🟡 WARM';\nconst trackLabel = t => t === 'pre' ? 'Pre-market' : 'On-market';\n\nconst rows = leads.map(lead => {\n  const trackDetails = lead.track === 'pre'\n    ? `<tr><td colspan=\"2\" style=\"padding:6px 8px;font-size:12px;color:#555;\"><em>Timeline:</em> ${lead.pm_timeline || '-'} &nbsp;|&nbsp; <em>Price strategy:</em> ${lead.pm_price_strategy || '-'} &nbsp;|&nbsp; <em>Docs:</em> ${lead.pm_docs || '-'} &nbsp;|&nbsp; <em>Priority:</em> ${lead.pm_priority || '-'}</td></tr>`\n    : `<tr><td colspan=\"2\" style=\"padding:6px 8px;font-size:12px;color:#555;\"><em>Offers:</em> ${lead.om_offers || '-'} &nbsp;|&nbsp; <em>Viewings:</em> ${lead.om_viewings || '-'} &nbsp;|&nbsp; <em>Price basis:</em> ${lead.om_price_basis || '-'} &nbsp;|&nbsp; <em>Changes:</em> ${lead.om_changes || '-'}</td></tr>`;\n\n  return `\n  <tr style=\"background:#fff8f0;\">\n    <td style=\"padding:10px 8px;font-weight:bold;white-space:nowrap;\">${tierLabel(lead.lead_tier)} — ${trackLabel(lead.track)}</td>\n    <td style=\"padding:10px 8px;\">\n      <strong>${lead.name || '-'}</strong> &nbsp;|&nbsp;\n      ${lead.phone || '-'} &nbsp;|&nbsp;\n      ${lead.email || '-'}\n    </td>\n  </tr>\n  <tr>\n    <td style=\"padding:4px 8px;font-size:12px;color:#555;\">Lead score: ${lead.lead_quality_score}/100</td>\n    <td style=\"padding:4px 8px;font-size:12px;color:#555;\">${lead.property_type || ''} | ${lead.location || ''} ${lead.neighborhood || ''} | ${lead.area || ''}</td>\n  </tr>\n  <tr>\n    <td style=\"padding:4px 8px;font-size:12px;color:#555;\">Primary risk:</td>\n    <td style=\"padding:4px 8px;font-size:12px;color:#c0272d;\">${lead.primary_risk_agent || '-'}</td>\n  </tr>\n  ${trackDetails}\n  <tr><td colspan=\"2\" style=\"padding:4px 8px;font-size:11px;color:#999;\">Submitted: ${lead.created_at ? new Date(lead.created_at).toLocaleString('bg-BG') : '-'} | ID: ${lead.id}</td></tr>\n  <tr><td colspan=\"2\" style=\"border-bottom:2px solid #e0e0e0;\"></td></tr>\n`;\n}).join('');\n\nconst html = `\n<div style=\"font-family:sans-serif;max-width:700px;\">\n  <h2 style=\"color:#c0272d;border-bottom:2px solid #c0272d;padding-bottom:8px;\">⚠️ Reconciliation Alert — Missed Lead Notifications</h2>\n  <p style=\"color:#555;\">The following <strong>${leads.length}</strong> lead(s) were submitted but never notified — the real-time webhook likely failed. Review and follow up immediately.</p>\n  <table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" style=\"border-collapse:collapse;border:1px solid #ddd;\">\n    ${rows}\n  </table>\n  <p style=\"font-size:11px;color:#999;margin-top:16px;\">Sent by Lead Reconciliation workflow · ${new Date().toISOString()}</p>\n</div>\n`;\n\nreturn [{ json: { html, lead_ids: leads.map(l => l.id), count: leads.length } }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        368,
+        560
+      ],
+      "id": "f4d09002-a1d8-4c63-879b-a09a7047c0bf",
+      "name": "Build Alert Email"
+    },
+    {
+      "parameters": {
+        "sendTo": "iliyan.donev@proton.me",
+        "subject": "=⚠️ MISSED LEADS [{{ $json.count }}] — Reconciliation Alert {{ $now.toFormat('dd MMM yyyy HH:mm') }}",
+        "message": "={{ $json.html }}",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        592,
+        560
+      ],
+      "id": "1cdf84fe-14ab-48ae-8cc8-f68279842939",
+      "name": "Send Alert Email",
+      "webhookId": "0339a3b8-73d2-4f8b-bf03-7176a0232e20",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "qkI6mg358SoinSEp",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "PATCH",
+        "url": "=https://tkzgggyebjiubqldpywi.supabase.co/rest/v1/leads?id=in.({{ $('Build Alert Email').item.json.lead_ids.join(',') }})",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "supabaseApi",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Prefer",
+              "value": "return=minimal"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"notified_at\": \"{{ $now.toISO() }}\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        816,
+        560
+      ],
+      "id": "a128f6ce-1e86-48b0-a495-05f382e8592c",
+      "name": "Mark Leads Notified",
+      "executeOnce": true,
+      "credentials": {
+        "supabaseApi": {
+          "id": "Fp5nFO7aSmJ6nR4w",
+          "name": "Supabase account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Fetch Missed Leads",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch Missed Leads": {
+      "main": [
+        [
+          {
+            "node": "Aggregate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate": {
+      "main": [
+        [
+          {
+            "node": "Any missed leads?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Any missed leads?": {
+      "main": [
+        [
+          {
+            "node": "Build Alert Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Alert Email": {
+      "main": [
+        [
+          {
+            "node": "Send Alert Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Alert Email": {
+      "main": [
+        [
+          {
+            "node": "Mark Leads Notified",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "bbb74dac-05c4-4006-9ae5-60497ea9ef59",
+  "meta": {
+    "instanceId": "47f0bbbcfc9b7ced450c2c59b30d93f2e688bb0c2962df1e2358b9386fe4858b"
+  },
+  "id": "BN2cL5NoA847KlhR",
+  "tags": [
+    {
+      "updatedAt": "2026-06-02T23:02:59.623Z",
+      "createdAt": "2026-06-02T23:02:59.623Z",
+      "id": "PB2VlymEXnXsTNJh",
+      "name": "portfolio"
+    }
+  ]
+}
