@@ -432,30 +432,35 @@ function getPrimaryRisk() {
 function buildSecondary(skipTier, track, omPrice, pmPrice, docs, fears, changes) {
   const mispricedValues   = ['personal', 'friend', 'none'];
   const activePriceAnswer = omPrice || pmPrice;
+  const points = [];
 
-  // Mispricing secondary - skip if already the primary diagnosis
-  if (skipTier !== 3 && skipTier !== 1 && activePriceAnswer && mispricedValues.includes(activePriceAnswer.value)) 
+  // Mispricing - highest priority secondary, skip if already the primary diagnosis (tier 1 or 3)
+  if (skipTier !== 3 && skipTier !== 1 && activePriceAnswer && mispricedValues.includes(activePriceAnswer.value)) {
+    const undecided = activePriceAnswer.value === 'none';
+    points.push(
+      undecided
+        ? 'Освен това все още нямате яснота как ще определите цената - добре е да се адресира рано, преди обявяването на имота.'
+        : 'Освен това цената е определена по лична преценка или препоръка, а не чрез пазарен анализ - това остава допълнителен риск, независимо от диагнозата по-горе.'
+    );
+  }
 
-  // Documentation secondary - pre-market only, skip if already primary
+  // Documentation - pre-market only, skip if already primary
   if (skipTier !== 4 && track === 'pre' && docs && docs.value !== 'ready') {
-    return 'Освен това не сте проверили документацията - това е втората най-честа причина за забавени или пропаднали сделки.';
+    points.push('Освен това не сте проверили документацията - това е втората най-честа причина за забавени или пропаднали сделки.');
   }
 
-  // Fears - in priority order, first match wins
+  // Fears - first match only, in priority order
   if (fears.includes('urgency')) {
-    return 'Отбелязали сте притеснение от забавяне на продажбата - диагнозата по-горе показва точно къде в момента се губи време.';
-  }
-  if (fears.includes('positioning')) {
-    return 'Отбелязали сте несигурност относно ценовото позициониране - диагнозата потвърждава че тази интуиция заслужава внимание.';
-  }
-  if (fears.includes('legal')) {
-    return 'Отбелязали сте притеснение за документация - добра идея е да се провери преди да се стигне до финална сделка.';
-  }
-  if (fears.includes('trust_broker')) {
-    return 'Отбелязали сте несигурност относно работата с брокер - разбираемо при липса на конкретни резултати.';
+    points.push('Отбелязали сте притеснение от забавяне на продажбата - диагнозата по-горе показва точно къде в момента се губи време.');
+  } else if (fears.includes('positioning')) {
+    points.push('Отбелязали сте несигурност относно ценовото позициониране - диагнозата потвърждава че тази интуиция заслужава внимание.');
+  } else if (fears.includes('legal')) {
+    points.push('Отбелязали сте притеснение за документация - добра идея е да се провери преди да се стигне до финална сделка.');
+  } else if (fears.includes('trust_broker')) {
+    points.push('Отбелязали сте несигурност относно работата с брокер - разбираемо при липса на конкретни резултати.');
   }
 
-  return null;
+  return points.length ? points.slice(0, 2) : null;
 }
 
 function getLeadTier(score) {
@@ -807,7 +812,7 @@ function renderResult(root) {
     <div class="risk-card">
       <div class="risk-card-title">${risk.title}</div>
       <div class="risk-card-body">${risk.body}</div>
-      ${risk.secondary ? `<div class="risk-card-secondary">${risk.secondary}</div>` : ''}
+      ${risk.secondary ? risk.secondary.map(s => `<div class="risk-card-secondary">${s}</div>`).join('') : ''}
     </div>
 
     <div class="contact-box">
