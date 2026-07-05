@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>DiaPrisma — Case Study · Iliyan Donev</title>
+<title>DiaPrisma - Case Study · Iliyan Donev</title>
 <meta name="description" content="A qualification and routing layer for the Bulgarian real estate market. System design, architecture, and an honest audit of open items.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -123,7 +123,7 @@
   .decision h3{margin-bottom:8px;}
   .decision p{font-size:14.5px; margin-bottom:0;}
 
-  /* open items ledger — signature element */
+  /* open items ledger - signature element */
   .ledger-intro{margin-bottom:24px;}
   .ledger{
     border:1px solid var(--line); border-radius:6px; overflow:hidden; background:var(--paper-raised);
@@ -177,7 +177,7 @@
     font-size:14.5px; color:var(--ink-soft); padding-left:20px; position:relative;
   }
   .skills-list li::before{
-    content:'—'; position:absolute; left:0; color:var(--bronze);
+    content:'-'; position:absolute; left:0; color:var(--bronze);
   }
 
   footer{
@@ -210,7 +210,7 @@
 
   <section class="hero">
     <span class="eyebrow">Case Study · Pre-pilot</span>
-    <h1>A qualification layer for sellers who aren't ready — before an agency wastes time finding out.</h1>
+    <h1>A qualification layer for sellers who aren't ready - before an agency wastes time finding out.</h1>
     <p class="dek">DiaPrisma scores and routes real estate leads for Bulgarian agencies. Sole designer, builder, and engineer: Iliyan Donev.</p>
     <div class="meta-row">
       <span class="pill">Vanilla JS</span>
@@ -223,8 +223,8 @@
 
   <section id="problem">
     <h2>The problem</h2>
-    <p class="lede">Agencies treat every inbound seller inquiry the same way — regardless of whether that seller is actually ready to sell, or just curious.</p>
-    <p>DiaPrisma sits in front of an agency's own traffic as a qualification and routing layer, not a lead-generation tool. A seller answers a short branching quiz. They get an immediate readiness score and a diagnosed risk. If they opt in, the agency receives a structured, pre-scored lead instead of a raw form submission — tiered by urgency, not treated as one undifferentiated inbox.</p>
+    <p class="lede">Agencies treat every inbound seller inquiry the same way - regardless of whether that seller is actually ready to sell, or just curious.</p>
+    <p>DiaPrisma sits in front of an agency's own traffic as a qualification and routing layer, not a lead-generation tool. A seller answers a short branching quiz. They get an immediate readiness score and a diagnosed risk. If they opt in, the agency receives a structured, pre-scored lead instead of a raw form submission - tiered by urgency, not treated as one undifferentiated inbox.</p>
   </section>
 
   <section id="architecture">
@@ -248,18 +248,18 @@
       <div class="flow-arrow">↓ webhook</div>
       <div class="flow-step">
         <span class="tag">04</span>
-        <div><div class="label">n8n — real-time routing</div><div class="sub">tier × track switch → 4 Gmail templates</div></div>
+        <div><div class="label">n8n - real-time routing</div><div class="sub">tier × track switch → 4 Gmail templates</div></div>
       </div>
       <div class="flow-step">
         <span class="tag">05</span>
-        <div><div class="label">n8n — daily digest</div><div class="sub">cron 09:00, batches low-priority leads into one email</div></div>
+        <div><div class="label">n8n - daily digest</div><div class="sub">cron 09:00, batches low-priority leads into one email</div></div>
       </div>
       <div class="flow-step">
         <span class="tag">06</span>
-        <div><div class="label">n8n — reconciliation watchdog</div><div class="sub">cron /4h, catches silently-failed real-time notifications</div></div>
+        <div><div class="label">n8n - reconciliation watchdog</div><div class="sub">cron /4h, catches silently-failed real-time notifications</div></div>
       </div>
     </div>
-    <p>The real-time path and the watchdog are deliberately decoupled, so one failed webhook doesn't mean a hot lead disappears silently — it gets caught and re-alerted within a bounded window.</p>
+    <p>The real-time path and the watchdog are deliberately decoupled, so one failed webhook doesn't mean a hot lead disappears silently - it gets caught and re-alerted within a bounded window.</p>
   </section>
 
   <section id="decisions">
@@ -267,32 +267,32 @@
     <div class="decisions">
       <div class="decision">
         <h3>Two independent scores, not one</h3>
-        <p>A seller-facing readiness score and a separate agent-facing lead-priority score, computed from the same raw answers but structurally decorrelated — neither feeds into the other. A seller can be poorly prepared but highly motivated, or well-prepared and in no hurry. Agency action priority should track motivation, not readiness, and keeping the two independent avoids a shortcut that would quietly conflate them.</p>
+        <p>A seller-facing readiness score and a separate agent-facing lead-priority score, computed from the same raw answers but structurally decorrelated - neither feeds into the other. A seller can be poorly prepared but highly motivated, or well-prepared and in no hurry. Agency action priority should track motivation, not readiness, and keeping the two independent avoids a shortcut that would quietly conflate them.</p>
       </div>
       <div class="decision">
         <h3>The server never trusts the client</h3>
-        <p>The client does UX-layer validation for responsiveness. The Netlify function re-validates every field independently, re-checks score ranges, and rate-limits by IP against a live Supabase read before insert — so a tampered payload can't inject an out-of-range score or skip the client entirely.</p>
+        <p>The client does UX-layer validation for responsiveness. The Netlify function re-validates every field independently, re-checks score ranges, and rate-limits by IP against a live Supabase read before insert - so a tampered payload can't inject an out-of-range score or skip the client entirely.</p>
       </div>
       <div class="decision">
         <h3>Defense in depth, scoped honestly</h3>
-        <p>Input sanitization closes the main stored-XSS path into downstream email templates. It's also documented that if a future field were added without running through sanitization, there's no second layer of escaping at the template level — flagged as an open item rather than assumed away.</p>
+        <p>Input sanitization closes the main stored-XSS path into downstream email templates. It's also documented that if a future field were added without running through sanitization, there's no second layer of escaping at the template level - flagged as an open item rather than assumed away.</p>
       </div>
       <div class="decision">
-        <h3>GDPR retention, enforced — not just documented</h3>
-        <p>A pg_cron job scrubs each row's IP address 30 days after submission and expires the row entirely at 12 months, matching what the privacy policy actually states. This is a data-minimization control, not a demo/test-data filter — it doesn't distinguish a real seller's row from a test submission, and isn't meant to; it applies the same retention rule to every row regardless of source.</p>
+        <h3>GDPR retention, enforced - not just documented</h3>
+        <p>A pg_cron job scrubs each row's IP address 30 days after submission and expires the row entirely at 12 months, matching what the privacy policy actually states. This is a data-minimization control, not a demo/test-data filter - it doesn't distinguish a real seller's row from a test submission, and isn't meant to; it applies the same retention rule to every row regardless of source.</p>
       </div>
     </div>
   </section>
 
   <section id="open-items">
     <h2>What I'd flag as an engineer</h2>
-    <p class="ledger-intro">Auditing this system myself — rather than presenting it as finished — turned up real issues. Here's what's still open going into pilot, and one that's already fixed.</p>
+    <p class="ledger-intro">Auditing this system myself - rather than presenting it as finished - turned up real issues. Here's what's still open going into pilot, and one that's already fixed.</p>
     <div class="ledger">
       <div class="ledger-row">
         <span class="ledger-id">DIA-01</span>
         <div class="ledger-body">
           <h3>Secondary risk-messaging logic bug</h3>
-          <p>A missing block scope meant a mispricing-secondary narrative silently gated an unrelated documentation check behind an extra condition — certain sellers with undocumented paperwork never saw that flagged. Root cause documented before patching.</p>
+          <p>A missing block scope meant a mispricing-secondary narrative silently gated an unrelated documentation check behind an extra condition - certain sellers with undocumented paperwork never saw that flagged. Root cause documented before patching.</p>
         </div>
         <span class="status fixed">Fixed</span>
       </div>
@@ -300,7 +300,7 @@
         <span class="ledger-id">DIA-02</span>
         <div class="ledger-body">
           <h3>No tier/score cross-validation at the API boundary</h3>
-          <p>The server checks that scores fall in range, but not that the submitted lead tier is internally consistent with the score. A malformed or tampered payload could in theory claim a tier the score doesn't support. Low practical risk at pilot scale — real gap.</p>
+          <p>The server checks that scores fall in range, but not that the submitted lead tier is internally consistent with the score. A malformed or tampered payload could in theory claim a tier the score doesn't support. Low practical risk at pilot scale - real gap.</p>
         </div>
         <span class="status open">Open</span>
       </div>
@@ -308,13 +308,13 @@
         <span class="ledger-id">DIA-03</span>
         <div class="ledger-body">
           <h3>Reconciliation watchdog interval is untested</h3>
-          <p>The watchdog pattern is in place and structurally sound — a failed real-time webhook gets caught within a bounded window. That window has a ~4-hour worst case, and hasn't been stress-tested against an actual webhook failure yet.</p>
+          <p>The watchdog pattern is in place and structurally sound - a failed real-time webhook gets caught within a bounded window. That window has a ~4-hour worst case, and hasn't been stress-tested against an actual webhook failure yet.</p>
         </div>
         <span class="status open">Open</span>
       </div>
     </div>
     <div class="callout">
-      <strong>The bigger open question isn't in this list.</strong> No agency partner has live traffic yet, so the scoring weights are validated for internal logic — not for whether they produce sensible tiers against real seller behavior. That's what the pilot is for. The bugs above are fixable in minutes; not knowing if the model reflects reality is the actual unresolved risk.
+      <strong>The bigger open question isn't in this list.</strong> No agency partner has live traffic yet, so the scoring weights are validated for internal logic - not for whether they produce sensible tiers against real seller behavior. That's what the pilot is for. The bugs above are fixable in minutes; not knowing if the model reflects reality is the actual unresolved risk.
     </div>
   </section>
 
@@ -322,15 +322,12 @@
     <div class="demo-card">
       <div>
         <h2>Live demo</h2>
-        <p>The quiz is deployed and running against real infrastructure — not a static mockup. No agency has live client traffic on it yet.</p>
+        <p>The quiz is deployed and running against real infrastructure - not a static mockup. No agency has live client traffic on it yet.</p>
       </div>
       <div class="demo-warning">
         <span class="mark">NOTE</span>
-        <span>This is a live, functioning system, not a sandboxed copy — it just doesn't have a paying agency's traffic on it yet. Submitting the quiz still writes a real row to the database and can still trigger a real notification email through the routing pipeline described above. Feel free to click through and see the scoring and branching — if you submit at the end, know that it's a genuine write, not a simulated one.</span>
+        <span>This is a live, functioning system, not a sandboxed copy - it just doesn't have a paying agency's traffic on it yet. Submitting the quiz still writes a real row to the database and can still trigger a real notification email through the routing pipeline described above. Feel free to click through and see the scoring and branching - if you submit at the end, know that it's a genuine write, not a simulated one.</span>
       </div>
-      <a class="demo-cta" href="https://diaprisma.netlify.app/" target="_blank" rel="noopener">Open the live demo →</a>
-    </div>
-    <div>
       <a class="demo-cta" href="https://diaprisma.netlify.app/" target="_blank" rel="noopener"
          data-umami-event="case-study-demo-click">
         Open the live demo →
@@ -345,7 +342,7 @@
       <li>Independent server-side validation and defense-in-depth security thinking</li>
       <li>Workflow automation architecture (n8n) with failure-mode handling (watchdog pattern)</li>
       <li>AI-assisted development with manual code review rather than blind acceptance</li>
-      <li>Self-directed technical audit — identifying and documenting real bugs and gaps rather than presenting untested work as finished</li>
+      <li>Self-directed technical audit - identifying and documenting real bugs and gaps rather than presenting untested work as finished</li>
     </ul>
   </section>
 
