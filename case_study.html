@@ -284,8 +284,8 @@
         <p>Input sanitization closes the main stored-XSS path into downstream email templates. It's also documented that if a future field were added without running through sanitization, there's no second layer of escaping at the template level - flagged as an open item rather than assumed away.</p>
       </div>
       <div class="decision">
-        <h3>GDPR retention, enforced - not just documented</h3>
-        <p>A pg_cron job scrubs each row's IP address 30 days after submission and expires the row entirely at 12 months, matching what the privacy policy actually states. This is a data-minimization control, not a demo/test-data filter - it doesn't distinguish a real seller's row from a test submission, and isn't meant to; it applies the same retention rule to every row regardless of source.</p>
+        <h3>Retention logic designed to match policy, not bolted on after</h3>
+        <p>Two pg_cron jobs implement the privacy policy's stated terms: one nullifies each row's IP address 30 days after submission, the second expires the row entirely at 12 months. Built as data-minimization controls rather than a demo/test-data filter — the same rule applies to every row regardless of source. No live seller data has run through this yet, so this reflects working retention logic that matches the documented policy, not a claim of enforcement against real personal data at scale.</p>
       </div>
     </div>
   </section>
