@@ -347,6 +347,140 @@
     </div>
   </section>
 
+  <section id="user-stories">
+    <details>
+      <summary class="stories-toggle">User stories (retrospective, 10 stories) - expand</summary>
+      <p class="ledger-intro">I did not write these during the build. They were written afterwards, from the system as built, to document its requirements in user-story form. "Built" means the behavior exists in the system; "Proposed" means it comes from an open item above.</p>
+      <div class="ledger">
+
+        <div class="ledger-row">
+          <span class="ledger-id">S1</span>
+          <div class="ledger-body">
+            <h3>Branching quiz</h3>
+            <p class="story"><strong>As a seller,</strong> I want the questions to match whether my property is already listed, <strong>so that</strong> I only answer what's relevant.</p>
+            <ul class="criteria">
+              <li><em>Given</em> I answer "actively listed" at Q5, <em>then</em> I see the on-market questions, or the pre-market ones if I answer "not listed."</li>
+              <li><em>Given</em> I go back and change my Q5 answer, <em>then</em> the previous track's answers are discarded and don't affect my score.</li>
+            </ul>
+          </div>
+          <span class="status fixed">Built</span>
+        </div>
+
+        <div class="ledger-row">
+          <span class="ledger-id">S2</span>
+          <div class="ledger-body">
+            <h3>Readiness score and primary risk</h3>
+            <p class="story"><strong>As a seller,</strong> I want an immediate readiness score and the main risk to my sale, <strong>so that</strong> I know what to fix first.</p>
+            <ul class="criteria">
+              <li><em>Given</em> I complete all 10 questions, <em>then</em> I see a readiness score, its band, and one primary risk.</li>
+              <li><em>Given</em> several risk conditions apply, <em>then</em> the highest-priority one is shown as primary.</li>
+            </ul>
+          </div>
+          <span class="status fixed">Built</span>
+        </div>
+
+        <div class="ledger-row">
+          <span class="ledger-id">S3</span>
+          <div class="ledger-body">
+            <h3>Secondary risk</h3>
+            <p class="story"><strong>As a seller,</strong> I want a second risk shown when it applies, <strong>so that</strong> I don't miss a separate problem.</p>
+            <ul class="criteria">
+              <li><em>Given</em> a pre-market seller whose primary risk is mispricing and whose documents aren't ready, <em>then</em> the documentation risk appears as secondary. (The DIA-01 scenario.)</li>
+            </ul>
+          </div>
+          <span class="status fixed">Built</span>
+        </div>
+
+        <div class="ledger-row">
+          <span class="ledger-id">S4</span>
+          <div class="ledger-body">
+            <h3>Opt-in contact submission</h3>
+            <p class="story"><strong>As a seller,</strong> I want to share my details only if I choose to, <strong>so that</strong> I stay in control of my data.</p>
+            <ul class="criteria">
+              <li><em>Given</em> I opt in with a valid name and phone, <em>then</em> my profile is sent to the agency.</li>
+              <li><em>Given</em> invalid fields, <em>then</em> I'm blocked client-side and the server rejects them independently.</li>
+            </ul>
+          </div>
+          <span class="status fixed">Built</span>
+        </div>
+
+        <div class="ledger-row">
+          <span class="ledger-id">S5</span>
+          <div class="ledger-body">
+            <h3>Data minimization</h3>
+            <p class="story"><strong>As a seller,</strong> I want my data minimized and expired, <strong>so that</strong> my privacy is respected.</p>
+            <ul class="criteria">
+              <li><em>Given</em> a submitted row, <em>then</em> the IP address is scrubbed after 30 days and the row is deleted after 12 months.</li>
+            </ul>
+          </div>
+          <span class="status fixed">Built</span>
+        </div>
+
+        <div class="ledger-row">
+          <span class="ledger-id">A1</span>
+          <div class="ledger-body">
+            <h3>Urgency-tiered alerts</h3>
+            <p class="story"><strong>As an agent,</strong> I want urgent leads flagged clearly and immediately, <strong>so that</strong> I contact the most urgent sellers first.</p>
+            <ul class="criteria">
+              <li><em>Given</em> a lead scoring 70 or above, <em>then</em> I get a real-time email with a priority subject line, in the version matching the seller's track.</li>
+              <li><em>Given</em> a lead scoring 40-69, <em>then</em> I get a real-time email without the priority prefix.</li>
+            </ul>
+          </div>
+          <span class="status fixed">Built</span>
+        </div>
+
+        <div class="ledger-row">
+          <span class="ledger-id">A2</span>
+          <div class="ledger-body">
+            <h3>Low-priority digest</h3>
+            <p class="story"><strong>As an agent,</strong> I want low-priority leads batched, <strong>so that</strong> my inbox isn't flooded.</p>
+            <ul class="criteria">
+              <li><em>Given</em> un-notified leads scoring below 40, <em>when</em> 09:00 arrives, <em>then</em> I get one digest. <em>Given</em> none, <em>then</em> no email is sent.</li>
+            </ul>
+          </div>
+          <span class="status fixed">Built</span>
+        </div>
+
+        <div class="ledger-row">
+          <span class="ledger-id">A3</span>
+          <div class="ledger-body">
+            <h3>Missed-alert recovery</h3>
+            <p class="story"><strong>As an agent,</strong> I want missed hot or warm alerts recovered, <strong>so that</strong> no lead is silently lost.</p>
+            <ul class="criteria">
+              <li><em>Given</em> a hot or warm lead older than 15 minutes with no notification, <em>when</em> the 4-hourly check runs, <em>then</em> I get an alert and the lead is marked notified.</li>
+            </ul>
+          </div>
+          <span class="status fixed">Built</span>
+        </div>
+
+        <div class="ledger-row">
+          <span class="ledger-id">A4</span>
+          <div class="ledger-body">
+            <h3>Tier/score consistency (from DIA-02)</h3>
+            <p class="story"><strong>As an agent,</strong> I want the tier checked against the score on the server, <strong>so that</strong> a tampered submission can't trigger a hot-lead email.</p>
+            <ul class="criteria">
+              <li><em>Given</em> a payload claiming "hot" with a score of 10, <em>then</em> it is rejected or re-tiered from the score, and no hot alert fires.</li>
+            </ul>
+          </div>
+          <span class="status proposed">Proposed</span>
+        </div>
+
+        <div class="ledger-row">
+          <span class="ledger-id">A5</span>
+          <div class="ledger-body">
+            <h3>Faster failure detection (from DIA-03)</h3>
+            <p class="story"><strong>As an agent,</strong> I want a failed hot-lead alert caught sooner than the current 4-hour worst case, <strong>so that</strong> "immediate" holds up under failure.</p>
+            <ul class="criteria">
+              <li>Target window to be set with the agency. It's a business decision, not an engineering one.</li>
+            </ul>
+          </div>
+          <span class="status proposed">Proposed</span>
+        </div>
+
+      </div>
+    </details>
+  </section>
+
 </main>
 
 <footer>
