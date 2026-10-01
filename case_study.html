@@ -208,15 +208,6 @@
 </style>
 </head>
   
-<script>
-  (function(){
-    var d = document.querySelector('#user-stories details');
-    var open = function(){ d.open = true; };
-    if (location.hash === '#user-stories') open();
-    document.querySelector('a[href="#user-stories"]').addEventListener('click', open);
-  })();
-</script>
-  
 <body>
 
 <div class="topbar">
@@ -498,5 +489,14 @@
   <span>© 2026</span>
 </footer>
 
+  <script>
+  (function(){
+    var d = document.querySelector('#user-stories details');
+    var open = function(){ d.open = true; };
+    if (location.hash === '#user-stories') open();
+    document.querySelector('a[href="#user-stories"]').addEventListener('click', open);
+  })();
+</script>
+  
 </body>
 </html>
